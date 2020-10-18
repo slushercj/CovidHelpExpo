@@ -9,24 +9,24 @@ const Map = () => {
             style={styles.map}
             loadingEnabled={true}
             region={{
-                latitude: 32.7157,
-                longitude: 117.1611,
+                latitude: 37.78825,
+                longitude: -122.4324,
                 latitudeDelta: 0.015,
                 longitudeDelta: 0.0121
             }}
         >
             <MapView.Marker
                 coordinate={{
-                    latitude: 32.7157,
-                    longitude: 117.1611,
+                    latitude: 37.78825,
+                    longitude: -122.4324,
                 }}
                 title={"Title 1"}
                 description={"Description 1"}
             />
             <MapView.Marker
                 coordinate={{
-                    latitude: 32.7157,
-                    longitude: 117.1611,
+                    latitude: 37.78925,
+                    longitude: -122.4324,
                 }}
                 title={"Title 1"}
                 description={"Description 1"}
