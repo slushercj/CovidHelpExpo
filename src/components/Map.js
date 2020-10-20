@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MapView, { Marker, Callout, CalloutSubview } from 'react-native-maps';
-import { View, Text, StyleSheet, Dimensions, Image, Button } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image, Button, Platform } from 'react-native';
 import * as Location from 'expo-location';
 import MapViewDirections from '../MapViewDirections';
 
@@ -249,7 +249,7 @@ const Map = () => {
 
         <View style={styles.container}>
             <View style={styles.headerContainer}>
-                <Text style={styles.header}>Covid Help</Text>
+                <Text style={Platform.OS === 'android' ? styles.androidHeader : styles.iosHeader}>Covid Help</Text>
             </View>
             <MapView
                 style={styles.map}
@@ -317,9 +317,9 @@ const styles = StyleSheet.create({
         padding: 20,
         backgroundColor: '#0000'
     },
-    header: {
+    iosHeader: {
         fontSize: 40,
-        color: '#333',
+        color: '#444',
         textShadowColor: '#000000',
         textShadowOffset: {
             height: 1,
@@ -327,6 +327,17 @@ const styles = StyleSheet.create({
         },
         textShadowRadius: 2,
         shadowOpacity: 0.3
+    },
+    androidHeader: {
+        fontSize: 40,
+        color: '#444',
+        textShadowColor: '#000000',
+        textShadowOffset: {
+            height: -1,
+            width: -1,
+        },
+        textShadowRadius: 6,
+        shadowOpacity: .1
     },
     container: {
         alignItems: 'center'
