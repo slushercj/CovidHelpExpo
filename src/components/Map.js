@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import MapView from 'react-native-maps';
-import { View, Text, StyleSheet, Dimensions, Image } from 'react-native';
+import MapView, { Marker, Callout, CalloutSubview } from 'react-native-maps';
+import { View, Text, StyleSheet, Dimensions, Image, Button } from 'react-native';
 import * as Location from 'expo-location';
 import MapViewDirections from '../MapViewDirections';
 
@@ -203,7 +203,7 @@ const Map = () => {
             }
         },
         {
-            "title": "",
+            "title": "Jacob Center",
             "address": "404 Euclid Ave. San Diego, CA",
             "coordinates": {
                 "latitude": 32.7092293,
@@ -212,7 +212,7 @@ const Map = () => {
             "isFoodDist": true
         },
         {
-            "title": "",
+            "title": "Food Center #2",
             "address": "6601 Imperial Ave. San Diego, CA",
             "coordinates": {
                 "latitude": 32.7104482,
@@ -221,7 +221,7 @@ const Map = () => {
             "isFoodDist": true
         },
         {
-            "title": "",
+            "title": "Food Center #3",
             "address": "7373 Tooma St. San Diego, CA",
             "coordinates": {
                 "latitude": 32.6807999,
@@ -248,7 +248,9 @@ const Map = () => {
     return (
 
         <View style={styles.container}>
-            <Text style={styles.header}>Covid Help</Text>
+            <View style={styles.headerContainer}>
+                <Text style={styles.header}>Covid Help</Text>
+            </View>
             <MapView
                 style={styles.map}
                 showsUserLocation
@@ -263,16 +265,30 @@ const Map = () => {
                 }}
             >
                 {markers.map(marker => (
-                    <MapView.Marker
+                    <Marker
                         key={marker.address}
                         title={marker.title}
                         coordinate={marker.coordinates}
-                        description={<Text>This is a test</Text>}
-                    // pinColor={marker.isFoodDist ? '#3300ff' : '#ff0000'}
+                        description={marker.address}
+                        pinColor={marker.isFoodDist ? '#3300ff' : '#ff0000'}
+                        onPress={() => { }}
                     >
-                    </MapView.Marker>
+                        <Callout tooltip style={{ minWidth: 300 }}>
+                            <View style={styles.calloutStyle}>
+                                <Text style={styles.calloutHeader}>{marker.title}</Text>
+                                <Text style={styles.calloutAddress}>{marker.address}</Text>
+                                <View style={styles.siteInfoContainer}>
+                                    <Text style={styles.sitInfoText}>Walk-in  <Image source={require('../../assets/checkmark.png')} style={styles.icons} /></Text>
+                                    <Text style={styles.sitInfoText}>Appointment Needed  <Image source={require('../../assets/checkmark.png')} style={styles.icons} /></Text>
+                                </View>
+                                <View style={styles.buttonContainer}>
+                                    <Button title='Set Appointment' style={styles.buttonStyle}></Button>
+                                    <Button title='Navigate' style={styles.buttonStyle}></Button>
+                                </View>
+                            </View>
+                        </Callout>
+                    </Marker>
                 ))}
-
                 {/* <MapViewDirections
                     origin={location?.coordinates[0]}
                     destination={location?.coordinates}
@@ -290,17 +306,84 @@ const Map = () => {
 const styles = StyleSheet.create({
     map: {
         height: '100%',
-        width: '100%'
+        width: '100%',
+    },
+    icons: {
+        width: 20,
+        height: 20,
+        tintColor: 'green'
+    },
+    headerContainer: {
+        padding: 20,
+        backgroundColor: '#0000'
     },
     header: {
-        fontSize: 30
+        fontSize: 40,
+        color: '#333',
+        textShadowColor: '#000000',
+        textShadowOffset: {
+            height: 1,
+            width: 1,
+        },
+        textShadowRadius: 2,
+        shadowOpacity: 0.3
     },
     container: {
         alignItems: 'center'
     },
-    iconStyle: {
-        height: 15,
-        width: 15
+    calloutStyle: {
+        flex: -1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#ffffff',
+        borderStyle: 'solid',
+        borderColor: '#777777',
+        borderRadius: 10,
+        borderWidth: 1,
+    },
+    calloutHeader: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginLeft: 10,
+        marginTop: 10,
+        marginRight: 10,
+    },
+    calloutAddress: {
+        fontSize: 15,
+        marginLeft: 5,
+        marginRight: 5,
+    },
+    buttonStyle: {
+        fontSize: 8
+    },
+    siteInfoContainer: {
+        flex: 1,
+        alignContent: 'center',
+        justifyContent: 'space-evenly',
+        flexDirection: 'row',
+        marginTop: 10,
+        padding: 5,
+        width: '100%',
+    },
+    siteInfoText: {
+        marginRight: 5
+    },
+    buttonContainer: {
+        flex: 1,
+        alignContent: 'center',
+        justifyContent: 'space-evenly',
+        flexDirection: 'row',
+        marginTop: 10,
+        padding: 5,
+        width: '100%',
+        borderTopWidth: 1,
+        borderLeftWidth: 0,
+        borderRightWidth: 0,
+        borderColor: '#777777',
+        borderStyle: 'solid',
+        backgroundColor: '#ffffff',
+        borderBottomStartRadius: 10,
+        borderBottomEndRadius: 10
     }
 })
 
