@@ -1,14 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import _ from 'lodash';
 import MapView, { Marker, Callout, CalloutSubview } from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image, Button, Platform, Linking } from 'react-native';
 import * as Location from 'expo-location';
-import MapViewDirections from '../MapViewDirections';
+import { OpenMapDirections } from 'react-native-navigation-directions';
+
 
 const height = Dimensions.get('window');
 
-const Map = () => {
+const Map = (props) => {
     const [location, setLocation] = useState({ coords: { latitude: 0, longitude: 0 } });
-    const [errorMsg, setErrorMsg] = useState(null);
+
+    const API_KEY = 'AIzaSyALxVcQZDG7p4qh_89RmPJ8pguo-mtYyRI';
+    const { width, height } = Dimensions.get('window');
+    const _map = useRef(null);
+
     const markers = [
         {
             "title": "Chula Vista Aquatica San Diego",
@@ -278,6 +285,7 @@ const Map = () => {
             <View style={styles.headerContainer}>
                 <Text style={Platform.OS === 'android' ? styles.androidHeader : styles.iosHeader}>Covid Help</Text>
             </View>
+
             <MapView
                 style={styles.map}
                 showsUserLocation
@@ -290,8 +298,9 @@ const Map = () => {
                     latitudeDelta: .15,
                     longitudeDelta: .15
                 }}
+                ref={_map}
             >
-                {markers.map(marker => (
+                {markers && markers.map(marker => (
                     <Marker
                         key={marker.address}
                         title={marker.title}
@@ -300,6 +309,7 @@ const Map = () => {
                         pinColor={marker.isFoodDist ? '#3300ff' : '#ff0000'}
                         onPress={() => { }}
                     >
+
                         <Callout tooltip style={{ minWidth: 300 }}>
                             <View style={styles.calloutStyle}>
                                 <Text style={styles.calloutHeader}>{marker.title}</Text>
@@ -310,28 +320,21 @@ const Map = () => {
                                 </View>
                                 <View style={styles.buttonContainer}>
                                     <Button
+                                        disabled={marker.url == null}
                                         title={marker.url ? 'Set Appointment' : 'No Appointment Required'}
-
                                         style={styles.buttonStyle}
-                                        onPress={
-                                            marker.url != null ?
-                                                null : null
-                                        }></Button>
-                                    <Button title='Navigate' style={styles.buttonStyle}></Button>
+                                        onPress={() => Linking.canOpenURL(marker.url) ? Linking.openURL(marker.url) : null}
+                                    ></Button>
+                                    <Button
+                                        title='Navigate'
+                                        style={styles.buttonStyle}
+                                        onPress={() => { marker.coordinates && OpenMapDirections(null, marker.coordinates, 'd') }}
+                                    ></Button>
                                 </View>
                             </View>
                         </Callout>
                     </Marker>
                 ))}
-                {/* <MapViewDirections
-                    origin={location?.coordinates[0]}
-                    destination={location?.coordinates}
-                    apikey={GOOGLE_MAPS_APIKEY}
-                    strokeWidth={3}
-                    strokeColor="hotpink"
-                    onReady={this.onReady}
-                    onError={this.onError}
-                /> */}
             </MapView>
         </View >
     )
