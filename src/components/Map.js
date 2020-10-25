@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MapView, { Marker, Callout, CalloutSubview } from 'react-native-maps';
-import { View, Text, StyleSheet, Dimensions, Image, Button, Platform } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image, Button, Platform, Linking } from 'react-native';
 import * as Location from 'expo-location';
 import MapViewDirections from '../MapViewDirections';
 
@@ -16,7 +16,8 @@ const Map = () => {
             "coordinates": {
                 "latitude": 32.5873404,
                 "longitude": -117.0107804
-            }
+            },
+            url: "https://covidtest.sandiegocounty.gov/healthbook",
         },
         {
             "title": "Mar Vista High School",
@@ -24,7 +25,8 @@ const Map = () => {
             "coordinates": {
                 "latitude": 32.5792622,
                 "longitude": -117.1218399
-            }
+            },
+            url: null,
         },
         {
             "title": "Chula Vista (Old Sears building)",
@@ -32,7 +34,8 @@ const Map = () => {
             "coordinates": {
                 "latitude": 32.6310051,
                 "longitude": -117.0836367
-            }
+            },
+            url: "https://covidtest.sandiegocounty.gov/healthbook",
         },
         {
             "title": "St. Anthony's of Padua Parking Lot",
@@ -40,7 +43,8 @@ const Map = () => {
             "coordinates": {
                 "latitude": 32.6656983,
                 "longitude": -117.1080542
-            }
+            },
+            url: "https://covidtest.sandiegocounty.gov/healthbook",
         },
         {
             "title": "Kimball Senior Center",
@@ -48,7 +52,8 @@ const Map = () => {
             "coordinates": {
                 "latitude": 32.6730326,
                 "longitude": -117.1008332
-            }
+            },
+            url: "https://lhi.care/covidtesting",
         },
         {
             "title": "Euclid Health Center",
@@ -56,7 +61,8 @@ const Map = () => {
             "coordinates": {
                 "latitude": 32.707314,
                 "longitude": -117.0860519
-            }
+            },
+            url: "https://covidtest.sandiegocounty.gov/healthbook",
         },
         {
             "title": "Tubman-Chavez Community Center",
@@ -64,7 +70,8 @@ const Map = () => {
             "coordinates": {
                 "latitude": 32.7099393,
                 "longitude": -117.0846946
-            }
+            },
+            url: null,
         },
         {
             "title": "County Fire - Spring Valley County Library",
@@ -72,7 +79,8 @@ const Map = () => {
             "coordinates": {
                 "latitude": 32.7121974,
                 "longitude": -117.0023237
-            }
+            },
+            url: "https://covidtest.sandiegocounty.gov/healthbook",
         },
         {
             "title": "The San Diego LGBT Community Center",
@@ -80,7 +88,8 @@ const Map = () => {
             "coordinates": {
                 "latitude": 32.7488891,
                 "longitude": -117.1476567
-            }
+            },
+            url: "https://covidtest.sandiegocounty.gov/healthbook",
         },
         {
             "title": "The San Diego LGBT Community Center",
@@ -88,7 +97,8 @@ const Map = () => {
             "coordinates": {
                 "latitude": 32.7491196,
                 "longitude": -116.9289217
-            }
+            },
+            url: "https://covidtest.sandiegocounty.gov/healthbook",
         },
         {
             "title": "San Diego State University Parking Lot 17B",
@@ -96,7 +106,8 @@ const Map = () => {
             "coordinates": {
                 "latitude": 32.77919582623916,
                 "longitude": -117.06425353362494
-            }
+            },
+            url: "https://covidtest.sandiegocounty.gov/healthbook",
         },
         {
             "title": "County Fire - Jamul/Deerhorn Jamul Intermediate School",
@@ -104,7 +115,8 @@ const Map = () => {
             "coordinates": {
                 "latitude": 32.7283233,
                 "longitude": -116.8546311
-            }
+            },
+            url: null
         },
         {
             "title": "University of San Diego (USD) Parking Lot",
@@ -112,7 +124,8 @@ const Map = () => {
             "coordinates": {
                 "latitude": 32.7707449,
                 "longitude": -117.1920641
-            }
+            },
+            url: "https://covidtest.sandiegocounty.gov/healthbook",
         },
         {
             "title": "Assessor Recorder County Clerk Building",
@@ -120,7 +133,8 @@ const Map = () => {
             "coordinates": {
                 "latitude": 32.7936558,
                 "longitude": -116.9627345
-            }
+            },
+            url: "https://covidtest.sandiegocounty.gov/healthbook",
         },
         {
             "title": "Sycuan Market",
@@ -128,7 +142,8 @@ const Map = () => {
             "coordinates": {
                 "latitude": 32.78790014162771,
                 "longitude": -116.84520434908
-            }
+            },
+            url: "https://covidtest.sandiegocounty.gov/healthbook",
         },
         {
             "title": "Pacific Beach Taylor Branch Library",
@@ -136,7 +151,8 @@ const Map = () => {
             "coordinates": {
                 "latitude": 32.7942657,
                 "longitude": -117.2498942
-            }
+            },
+            url: "https://covidtest.sandiegocounty.gov/healthbook",
         },
         {
             "title": "County Fire - Lakeside Library",
@@ -144,7 +160,8 @@ const Map = () => {
             "coordinates": {
                 "latitude": 32.8587313,
                 "longitude": -116.9204957
-            }
+            },
+            url: "https://covidtest.sandiegocounty.gov/healthbook",
         },
         {
             "title": "Mira Mesa Senior Center",
@@ -152,7 +169,8 @@ const Map = () => {
             "coordinates": {
                 "latitude": 32.9133438,
                 "longitude": -117.140488
-            }
+            },
+            url: "https://covidtest.sandiegocounty.gov/healthbook",
         },
         {
             "title": "County Fire - Ramona Library",
@@ -160,7 +178,8 @@ const Map = () => {
             "coordinates": {
                 "latitude": 33.0398629,
                 "longitude": -116.8732471
-            }
+            },
+            url: "https://covidtest.sandiegocounty.gov/healthbook",
         },
         {
             "title": "California Center for the Arts, Escondido Center Theater",
@@ -168,7 +187,8 @@ const Map = () => {
             "coordinates": {
                 "latitude": 33.12194383887574,
                 "longitude": -117.08513086368667
-            }
+            },
+            url: "https://covidtest.sandiegocounty.gov/healthbook",
         },
         {
             "title": "County Fire - Valley Center Elementary",
@@ -176,7 +196,8 @@ const Map = () => {
             "coordinates": {
                 "latitude": 33.235957,
                 "longitude": -117.0216908
-            }
+            },
+            url: "https://covidtest.sandiegocounty.gov/healthbook",
         },
         {
             "title": "North Coastal Live Well Health Center",
@@ -184,7 +205,8 @@ const Map = () => {
             "coordinates": {
                 "latitude": 33.2024883,
                 "longitude": -117.3664611
-            }
+            },
+            url: "https://covidtest.sandiegocounty.gov/healthbook",
         },
         {
             "title": "Cal State University San Marcos, Viasat Engineering Pavilion",
@@ -192,7 +214,8 @@ const Map = () => {
             "coordinates": {
                 "latitude": 33.1285209,
                 "longitude": -117.1626994
-            }
+            },
+            url: null,
         },
         {
             "title": "San Ysidro Border Test Site",
@@ -200,7 +223,8 @@ const Map = () => {
             "coordinates": {
                 "latitude": 32.5436704,
                 "longitude": -117.0286176
-            }
+            },
+            url: null,
         },
         {
             "title": "Jacob Center",
@@ -209,6 +233,7 @@ const Map = () => {
                 "latitude": 32.7092293,
                 "longitude": -117.0876539
             },
+            url: null,
             "isFoodDist": true
         },
         {
@@ -218,6 +243,7 @@ const Map = () => {
                 "latitude": 32.7104482,
                 "longitude": -117.0559976
             },
+            url: null,
             "isFoodDist": true
         },
         {
@@ -227,6 +253,7 @@ const Map = () => {
                 "latitude": 32.6807999,
                 "longitude": -117.03558
             },
+            url: null,
             "isFoodDist": true
         }
     ];
@@ -282,7 +309,14 @@ const Map = () => {
                                     <Text style={styles.sitInfoText}>Appointment Needed  <Image source={require('../../assets/checkmark.png')} style={styles.icons} /></Text>
                                 </View>
                                 <View style={styles.buttonContainer}>
-                                    <Button title='Set Appointment' style={styles.buttonStyle}></Button>
+                                    <Button
+                                        title={marker.url ? 'Set Appointment' : 'No Appointment Required'}
+
+                                        style={styles.buttonStyle}
+                                        onPress={
+                                            marker.url != null ?
+                                                null : null
+                                        }></Button>
                                     <Button title='Navigate' style={styles.buttonStyle}></Button>
                                 </View>
                             </View>
