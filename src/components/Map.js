@@ -1,8 +1,8 @@
 import _ from 'lodash';
-import MapView, { Marker, Callout, CalloutSubview } from 'react-native-maps';
+import MapView, { Marker, Callout, CalloutSubview, OverlayComponent } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, Dimensions, Image, Button, Platform, Linking } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image, Button, Platform, Linking, Modal } from 'react-native';
 import * as Location from 'expo-location';
 import { OpenMapDirections } from 'react-native-navigation-directions';
 
@@ -300,17 +300,17 @@ const Map = (props) => {
                 }}
                 ref={_map}
             >
-                {markers && markers.map(marker => (
+                {markers && markers.map((marker, index) => (
                     <Marker
-                        key={marker.address}
+                        key={index}
                         title={marker.title}
                         coordinate={marker.coordinates}
                         description={marker.address}
                         pinColor={marker.isFoodDist ? '#3300ff' : '#ff0000'}
-                        onPress={() => { }}
+                        tooltip={true}
                     >
 
-                        <Callout tooltip style={{ minWidth: 300 }}>
+                        <Callout tooltip onPress={() => { Platform.OS == 'android' && marker.coordinates ? OpenMapDirections(null, marker.coordinates, 'd') : null }}>
                             <View style={styles.calloutStyle}>
                                 <Text style={styles.calloutHeader}>{marker.title}</Text>
                                 <Text style={styles.calloutAddress}>{marker.address}</Text>
@@ -333,6 +333,7 @@ const Map = (props) => {
                                 </View>
                             </View>
                         </Callout>
+
                     </Marker>
                 ))}
             </MapView>
@@ -432,7 +433,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
         borderBottomStartRadius: 10,
         borderBottomEndRadius: 10
-    }
+    },
 })
 
 export default Map;
