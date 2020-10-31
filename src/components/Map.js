@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import MapView, { Marker, Callout, CalloutSubview, OverlayComponent } from 'react-native-maps';
-import MapViewDirections from 'react-native-maps-directions';
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image, Button, Platform, Linking, Modal } from 'react-native';
 import * as Location from 'expo-location';
@@ -11,272 +10,278 @@ const height = Dimensions.get('window');
 
 const Map = (props) => {
     const [location, setLocation] = useState({ coords: { latitude: 0, longitude: 0 } });
+    const userRegion = {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.25,
+        longitudeDelta: 0.25
+    };
 
-    const API_KEY = 'AIzaSyALxVcQZDG7p4qh_89RmPJ8pguo-mtYyRI';
     const { width, height } = Dimensions.get('window');
     const _map = useRef(null);
 
-    const markers = [
+    const [markers, setMarkers] = useState([
         {
-            "title": "Chula Vista Aquatica San Diego",
+            "address": "212 West Park Ave, San Ysidro, CA 92173",
+            "appointment": "https://lhi.care/covidtesting",
+            "hours": "Tuesday - Saturday: 7 AM - 7 PM",
+            "latitude": 32.5548668,
+            "longitude": -117.0443825,
+            "title": "San Ysidro Civic Center",
+            "type": "This is a Walk-In testing site. No appointment necessary. Testing is free",
+        },
+        {
             "address": "2052 Entertainment Cir, Chula Vista, CA 91911",
-            "coordinates": {
-                "latitude": 32.5873404,
-                "longitude": -117.0107804
-            },
-            url: "https://covidtest.sandiegocounty.gov/healthbook",
+            "appointment": "No appointment required",
+            "hours": "Monday - Friday: 8:30 AM - 3:30 PM",
+            "latitude": 32.5873404,
+            "longitude": -117.0107804,
+            "title": "Chula Vista Aquatica San Diego",
+            "type": "This is a Drive-Up testing site. No appointment necessary. Testing is free",
         },
         {
-            "title": "Mar Vista High School",
             "address": "505 Elm Avenue, Imperial Beach, CA 91932",
-            "coordinates": {
-                "latitude": 32.5792622,
-                "longitude": -117.1218399
-            },
-            url: null,
+            "appointment": "No appointment required",
+            "hours": "Monday - Friday 8:30 AM - 3:30 PM",
+            "latitude": 32.5792622,
+            "longitude": -117.1218399,
+            "title": "Mar Vista High School",
+            "type": "This is a Drive-Up testing site. No Appointments are required. Testing is free.",
         },
         {
-            "title": "Chula Vista (Old Sears building)",
             "address": "565 Broadway, Chula Vista, CA 91910",
-            "coordinates": {
-                "latitude": 32.6310051,
-                "longitude": -117.0836367
-            },
-            url: "https://covidtest.sandiegocounty.gov/healthbook",
+            "appointment": "https://lhi.care/covidtesting",
+            "hours": "Tuesday - Saturday: 7 AM - 7 PM",
+            "latitude": 32.6310051,
+            "longitude": -117.0836367,
+            "title": "Chula Vista (Old Sears building)",
+            "type": "This is a Walk-In testing site. Appointments Available but Not Required. Walk- Ins Welcome.Testing is free.",
         },
         {
-            "title": "St. Anthony's of Padua Parking Lot",
             "address": "410 W 18th St, National City, CA 91950",
-            "coordinates": {
-                "latitude": 32.6656983,
-                "longitude": -117.1080542
-            },
-            url: "https://covidtest.sandiegocounty.gov/healthbook",
+            "appointment": "https://covidtest.sandiegocounty.gov/healthbook",
+            "hours": "Sunday: 10 AM - 2 PM",
+            "latitude": 32.6656983,
+            "longitude": -117.1080542,
+            "title": "St. Anthony's of Padua Parking Lot",
+            "type": "This is a Drive-Up testing site. Appointments are required. Testing is free.",
         },
         {
-            "title": "Kimball Senior Center",
             "address": "1221 D Ave, National City, CA 919150",
-            "coordinates": {
-                "latitude": 32.6730326,
-                "longitude": -117.1008332
-            },
-            url: "https://lhi.care/covidtesting",
+            "appointment": "https://lhi.care/covidtesting",
+            "hours": "Tuesday - Saturday: 7 AM - 7 PM",
+            "latitude": 32.6730326,
+            "longitude": -117.1008332,
+            "title": "Kimball Senior Center",
+            "type": "This is a Walk-In testing site.Appointments Available but Not Required. Walk- Ins Welcome.Testing is free.",
         },
         {
-            "title": "Euclid Health Center",
             "address": "292 Euclid Avenue, San Diego, CA 92114",
-            "coordinates": {
-                "latitude": 32.707314,
-                "longitude": -117.0860519
-            },
-            url: "https://covidtest.sandiegocounty.gov/healthbook",
+            "appointment": "https://covidtest.sandiegocounty.gov/healthbook",
+            "hours": "Saturday: 9 AM - 3 PM",
+            "latitude": 32.707314,
+            "longitude": -117.0860519,
+            "title": "Euclid Health Center",
+            "type": "This is a Drive-Up testing site. Appointments are required. Testing is free.",
         },
         {
-            "title": "Tubman-Chavez Community Center",
             "address": "415 Euclid Ave, San Diego, CA 92114",
-            "coordinates": {
-                "latitude": 32.7099393,
-                "longitude": -117.0846946
-            },
-            url: null,
+            "appointment": "No appointment required",
+            "hours": "Sunday - Saturday: 8:30 AM - 5 PM",
+            "latitude": 32.7099393,
+            "longitude": -117.0846946,
+            "title": "Tubman-Chavez Community Center",
+            "type": "This is a Walk-In testing site. No appointment necessary. Testing is free.",
         },
         {
-            "title": "County Fire - Spring Valley County Library",
             "address": "836 Kempton St, Spring Valley, CA 91977",
-            "coordinates": {
-                "latitude": 32.7121974,
-                "longitude": -117.0023237
-            },
-            url: "https://covidtest.sandiegocounty.gov/healthbook",
+            "appointment": "https://covidtest.sandiegocounty.gov/healthbook",
+            "hours": "Monday 8/10, Wednesday 8/12: 9 AM - 2 PM",
+            "latitude": 32.7121974,
+            "longitude": -117.0023237,
+            "title": "County Fire - Spring Valley County Library",
+            "type": "This is a Drive-Up (Accepts Walk-ins) testing site. Appointments Available but Not Required. Walk- Ins Welcome",
         },
         {
-            "title": "The San Diego LGBT Community Center",
-            "address": "3909 Centre St, San Diego, CA, 92103",
-            "coordinates": {
-                "latitude": 32.7488891,
-                "longitude": -117.1476567
-            },
-            url: "https://covidtest.sandiegocounty.gov/healthbook",
-        },
-        {
-            "title": "The San Diego LGBT Community Center",
             "address": "11555 Via Rancho San Diego, El Cajon, CA 92019",
-            "coordinates": {
-                "latitude": 32.7491196,
-                "longitude": -116.9289217
-            },
-            url: "https://covidtest.sandiegocounty.gov/healthbook",
+            "appointment": "https://covidtest.sandiegocounty.gov/healthbook",
+            "hours": "Saturday  8AM - 12 PM",
+            "latitude": 32.7491196,
+            "longitude": -116.9289217,
+            "title": "County Fire - Rancho San Diego Library",
+            "type": "This is a Drive-Up (Accepts Walk-ins) testing site. Appointments Available but Not Required. Walk- Ins Welcome. Testing is free",
         },
         {
-            "title": "San Diego State University Parking Lot 17B",
-            "address": "6200 Alvarado Road, San Diego, CA 92120",
-            "coordinates": {
-                "latitude": 32.77919582623916,
-                "longitude": -117.06425353362494
-            },
-            url: "https://covidtest.sandiegocounty.gov/healthbook",
-        },
-        {
-            "title": "County Fire - Jamul/Deerhorn Jamul Intermediate School",
             "address": "14545 Lyons Valley Road, Jamul, CA 91935",
-            "coordinates": {
-                "latitude": 32.7283233,
-                "longitude": -116.8546311
-            },
-            url: null
+            "appointment": "No appointment required",
+            "hours": "Tuesday 8/11: 9 AM - 2 PM",
+            "latitude": 32.7283233,
+            "longitude": -116.8546311,
+            "title": "County Fire - Jamul/Deerhorn Jamul Intermediate School",
+            "type": "This is a Drive-Up (Accepts Walk-ins) testing site. Appointments Available but Not Required. Walk- Ins Welcome. Testing is free",
         },
         {
-            "title": "University of San Diego (USD) Parking Lot",
-            "address": "5998 Alcala Park, San Diego, CA 92110",
-            "coordinates": {
-                "latitude": 32.7707449,
-                "longitude": -117.1920641
-            },
-            url: "https://covidtest.sandiegocounty.gov/healthbook",
-        },
-        {
-            "title": "Assessor Recorder County Clerk Building",
             "address": "200 South Magnolia Ave, El Cajon, CA 92020",
-            "coordinates": {
-                "latitude": 32.7936558,
-                "longitude": -116.9627345
-            },
-            url: "https://covidtest.sandiegocounty.gov/healthbook",
+            "appointment": "https://lhi.care/covidtesting",
+            "hours": "Tuesday - Saturday: 7 AM - 7 PM",
+            "latitude": 32.7936558,
+            "longitude": -116.9627345,
+            "title": "Assessor Recorder County Clerk Building",
+            "type": "This is a Walk-In testing site. Appointments Available but Not Required. Walk- Ins Welcome",
         },
         {
-            "title": "Sycuan Market",
             "address": "4915 Dehesa Rd, El Cajon CA 92019",
-            "coordinates": {
-                "latitude": 32.78790014162771,
-                "longitude": -116.84520434908
-            },
-            url: "https://covidtest.sandiegocounty.gov/healthbook",
+            "appointment": "https://covidtest.sandiegocounty.gov/healthbook",
+            "hours": "Monday - Thursday: 8:30 AM - 12:00 PM and 1:00 - 3:30 PM",
+            "latitude": 32.78790014162771,
+            "longitude": -116.84520434908,
+            "title": "Sycuan Market",
+            "type": "This is a Drive-Up testing site. Appointments are required. Testing is free.",
         },
         {
-            "title": "Pacific Beach Taylor Branch Library",
-            "address": "4275 Cass Street, San Diego, CA 92109",
-            "coordinates": {
-                "latitude": 32.7942657,
-                "longitude": -117.2498942
-            },
-            url: "https://covidtest.sandiegocounty.gov/healthbook",
-        },
-        {
-            "title": "County Fire - Lakeside Library",
-            "address": "9839 Vine St, Lakeside, CA 92040",
-            "coordinates": {
-                "latitude": 32.8587313,
-                "longitude": -116.9204957
-            },
-            url: "https://covidtest.sandiegocounty.gov/healthbook",
-        },
-        {
-            "title": "Mira Mesa Senior Center",
             "address": "8460 Mira Mesa Blvd. San Diego, CA 92126",
-            "coordinates": {
-                "latitude": 32.9133438,
-                "longitude": -117.140488
-            },
-            url: "https://covidtest.sandiegocounty.gov/healthbook",
+            "appointment": "https://covidtest.sandiegocounty.gov/healthbook",
+            "hours": "Wednesdays and Fridays: 9 AM - 3 PM",
+            "latitude": 32.9133438,
+            "longitude": -117.140488,
+            "title": "Mira Mesa Senior Center",
+            "type": "This is a Drive-Up testing site. Appointments are required. Testing is free.",
         },
         {
-            "title": "County Fire - Ramona Library",
-            "address": "1275 Main Street, Ramona, CA 92065",
-            "coordinates": {
-                "latitude": 33.0398629,
-                "longitude": -116.8732471
-            },
-            url: "https://covidtest.sandiegocounty.gov/healthbook",
-        },
-        {
-            "title": "California Center for the Arts, Escondido Center Theater",
             "address": "260 N. Escondido Blvd, Escondido CA, 92025",
-            "coordinates": {
-                "latitude": 33.12194383887574,
-                "longitude": -117.08513086368667
-            },
-            url: "https://covidtest.sandiegocounty.gov/healthbook",
+            "appointment": "https://lhi.care/covidtesting",
+            "hours": "Tuesday - Saturday: 7 AM � 7 PM",
+            "latitude": 33.12194383887574,
+            "longitude": -117.08513086368667,
+            "title": "California Center for the Arts, Escondido Center Theater",
+            "type": "This is a Walk-In testing site. Appointments Available but Not Required. Walk- Ins Welcome. Testing is free",
         },
         {
-            "title": "County Fire - Valley Center Elementary",
-            "address": "28751 Cole Grade Rd, Valley Center, CA 92082",
-            "coordinates": {
-                "latitude": 33.235957,
-                "longitude": -117.0216908
-            },
-            url: "https://covidtest.sandiegocounty.gov/healthbook",
-        },
-        {
-            "title": "North Coastal Live Well Health Center",
-            "address": "1701 Mission Ave, Oceanside, CA 92058",
-            "coordinates": {
-                "latitude": 33.2024883,
-                "longitude": -117.3664611
-            },
-            url: "https://covidtest.sandiegocounty.gov/healthbook",
-        },
-        {
-            "title": "Cal State University San Marcos, Viasat Engineering Pavilion",
             "address": "333 S. Twin Oaks Valley Rd, San Marcos, CA 92078",
-            "coordinates": {
-                "latitude": 33.1285209,
-                "longitude": -117.1626994
-            },
-            url: null,
+            "appointment": "No appointment required",
+            "hours": "Monday - Sunday: 8:30AM - 5:30 PM",
+            "latitude": 33.1285209,
+            "longitude": -117.1626994,
+            "title": "Cal State University San Marcos, Viasat Engineering Pavilion",
+            "type": "This is a Walk-In testing site. No appointment necessary. Testing is free.",
         },
         {
-            "title": "San Ysidro Border Test Site",
             "address": "795 E. San Ysidro Blvd, San Ysidro, CA 92173",
-            "coordinates": {
-                "latitude": 32.5436704,
-                "longitude": -117.0286176
-            },
-            url: null,
+            "appointment": "No appointment required",
+            "hours": "Monday - Friday: 6 AM - 1 PM",
+            "latitude": 32.5436704,
+            "longitude": -117.0286176,
+            "title": "San Ysidro Border Test Site",
+            "type": "This is a Walk-In testing site. No appointment necessary. Testing is free.",
         },
         {
-            "title": "Jacob Center",
-            "address": "404 Euclid Ave. San Diego, CA",
-            "coordinates": {
-                "latitude": 32.7092293,
-                "longitude": -117.0876539
-            },
-            url: null,
-            "isFoodDist": true
+            "address": "389 Orange Avenue, 91911",
+            "appointment": "No appointment required",
+            "hours": "Sunday -  12:30 PM - 8 PM",
+            "latitude": 32.6018016,
+            "longitude": -117.0680779,
+            "title": "Chula Vista,�South Chula Vista Branch Library",
+            "type": "This is a Drive-Up testing site. No appointment necessary. Testing is free",
         },
         {
-            "title": "Food Center #2",
-            "address": "6601 Imperial Ave. San Diego, CA",
-            "coordinates": {
-                "latitude": 32.7104482,
-                "longitude": -117.0559976
-            },
-            url: null,
-            "isFoodDist": true
+            "address": "5330 Linda Vista Rd, San Diego, CA 92110",
+            "appointment": "No appointment required",
+            "hours": "Monday - Sunday: 8:30 AM - 5:30 PM",
+            "latitude": 32.7670995,
+            "longitude": -117.1964758,
+            "title": "San Diego, Former USD Electronics Recycling Center",
+            "type": "This is a Walk-In testing site. No appointment necessary. Testing is free",
         },
         {
-            "title": "Food Center #3",
-            "address": "7373 Tooma St. San Diego, CA",
-            "coordinates": {
-                "latitude": 32.6807999,
-                "longitude": -117.03558
-            },
-            url: null,
-            "isFoodDist": true
-        }
-    ];
-
+            "address": "1549 India St, San Diego, CA 92101",
+            "appointment": "No appointment required",
+            "hours": "Mondays: 8 AM - 3:30 PM",
+            "latitude": 32.721612,
+            "longitude": -117.1679967,
+            "title": "San Diego, Mexican Consulate",
+            "type": "This is a Walk-In testing site. No appointment necessary. Testing is free.",
+        },
+        {
+            "address": "5222 Trojan Ave, San Diego, CA 92115",
+            "appointment": "No appointment required",
+            "hours": "Tuesdays: 11 AM - 6 PM",
+            "latitude": 32.7551417,
+            "longitude": -117.0831373,
+            "title": "San Diego, Chicano Federation: Trojan Place",
+            "type": "This is a Walk-In testing site. No appointment necessary. Testing is free",
+        },
+        {
+            "address": "5250 55th St, San Diego, CA 92182",
+            "appointment": "No appointment required",
+            "hours": "Monday - Friday: 8:30 AM - 4 PM",
+            "latitude": 32.77286592192972,
+            "longitude": -117.07638231107813,
+            "title": "San Diego State University (SDSU) Parma Payne Goodall Alumni Center",
+            "type": "This is a Walk-In testing site. No appointment necessary. Testing is free",
+        },
+        {
+            "address": "936 Genevieve St, Solana Beach, CA 92075",
+            "appointment": "",
+            "hours": "Saturdays: 8:30 AM - 3:30 PM",
+            "latitude": 32.9898095,
+            "longitude": -117.2566499,
+            "title": "Solana Beach, St. Leo Mission Church",
+            "type": "This is a Drive-Up testing site. Appointments are required. Testing is free",
+        },
+        {
+            "address": "2001 Tavern Rd, Alpine, CA 91901",
+            "appointment": "https://covidtest.sandiegocounty.gov/healthbook",
+            "hours": "Thursday 10/22: 9 AM - 1 PM",
+            "latitude": 32.8250122,
+            "longitude": -116.7734689,
+            "title": "Alpine, County Fire - Alpine Joan MacQueen School",
+            "type": "This is a Drive-Up (Accepts Walk-ins) testing site. Appointments Available but Not Required. Walk- Ins Welcome. Testing is free",
+        },
+        {
+            "address": "1401 Hanson Lane, Ramona, CA 92065",
+            "appointment": "https://covidtest.sandiegocounty.gov/healthbook",
+            "hours": "Monday 10/26: 8 AM - 12 PM",
+            "latitude": 33.0275076,
+            "longitude": -116.8691171,
+            "title": "Ramona, County Fire - Ramona High School",
+            "type": "This is a Drive-Up (Accepts Walk-ins) testing site. Appointments Available but Not Required. Walk- Ins Welcome. Testing is free.",
+        },
+    ]);
     const GOOGLE_MAPS_APIKEY = 'AIzaSyALxVcQZDG7p4qh_89RmPJ8pguo-mtYyRI';
 
     useEffect(() => {
         (async () => {
             let { status } = await Location.requestPermissionsAsync();
+
             if (status !== 'granted') {
-                setErrorMsg('Permission to access location was denied.');
+                alert('CovidHelp requires Location permissions in order to work');
+                return;
             }
 
-            let location = await Location.getCurrentPositionAsync({});
+            let location = await Location.getCurrentPositionAsync().catch(l => {
+                alert(l);
+            });
             setLocation(location);
-        })();
+
+            const newMarkers = [];
+
+            for (const l of markers) {
+
+                if (l.latitude == null || l.longitude == null) {
+                    console.log(l);
+                    await Location.geocodeAsync(l.address).then(r => {
+                        if (r == null || r[0] == null) {
+                            console.log("Couldn't retrieve location");
+                            return;
+                        }
+
+                        const newMarker = { ...l };
+                        newMarkers.push({ ...l, latitude: r[0].latitude, longitude: r[0].longitude });
+                    }, e => console.log(`Error decoding ${e}`)).catch(r => console.log(r))
+                    setMarkers(newMarkers);
+                }
+            }
+        })()
     }, []);
 
     return (
@@ -292,25 +297,20 @@ const Map = (props) => {
                 zoomEnabled
                 zoomControlEnabled
                 followsUserLocation
-                region={{
-                    latitude: location.coords.latitude,
-                    longitude: location.coords.longitude,
-                    latitudeDelta: .15,
-                    longitudeDelta: .15
-                }}
+                region={userRegion}
                 ref={_map}
             >
-                {markers && markers.map((marker, index) => (
+                {markers && markers.every(m => m.latitude != null && m.longitude != null) && markers.map((marker, index) => (
                     <Marker
                         key={index}
                         title={marker.title}
-                        coordinate={marker.coordinates}
+                        coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
                         description={marker.address}
                         pinColor={marker.isFoodDist ? '#3300ff' : '#ff0000'}
                         tooltip={true}
                     >
 
-                        <Callout tooltip onPress={() => { Platform.OS == 'android' && marker.coordinates ? OpenMapDirections(null, marker.coordinates, 'd') : null }}>
+                        <Callout tooltip onPress={() => { Platform.OS == 'android' && marker.latitude && marker.longitude ? OpenMapDirections(null, { latitude: marker.latitude, longitude: marker.longitude }, 'd') : null }}>
                             <View style={styles.calloutStyle}>
                                 <Text style={styles.calloutHeader}>{marker.title}</Text>
                                 <Text style={styles.calloutAddress}>{marker.address}</Text>
@@ -320,15 +320,15 @@ const Map = (props) => {
                                 </View>
                                 <View style={styles.buttonContainer}>
                                     <Button
-                                        disabled={marker.url == null}
-                                        title={marker.url ? 'Set Appointment' : 'No Appointment Required'}
+                                        disabled={marker.appointment == null}
+                                        title={marker.appointment ? 'Set Appointment' : 'No Appointment Required'}
                                         style={styles.buttonStyle}
-                                        onPress={() => Linking.canOpenURL(marker.url) ? Linking.openURL(marker.url) : null}
+                                        onPress={() => Linking.canOpenURL(marker.appointment) ? Linking.openURL(marker.appointment) : null}
                                     ></Button>
                                     <Button
                                         title='Navigate'
                                         style={styles.buttonStyle}
-                                        onPress={() => { marker.coordinates && OpenMapDirections(null, marker.coordinates, 'd') }}
+                                        onPress={() => { marker && OpenMapDirections(null, marker, 'd') }}
                                     ></Button>
                                 </View>
                             </View>
