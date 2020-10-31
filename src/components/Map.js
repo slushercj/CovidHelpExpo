@@ -10,13 +10,6 @@ const height = Dimensions.get('window');
 
 const Map = (props) => {
     const [location, setLocation] = useState({ coords: { latitude: 0, longitude: 0 } });
-    const userRegion = {
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        latitudeDelta: 0.25,
-        longitudeDelta: 0.25
-    };
-
     const { width, height } = Dimensions.get('window');
     const _map = useRef(null);
 
@@ -297,7 +290,12 @@ const Map = (props) => {
                 zoomEnabled
                 zoomControlEnabled
                 followsUserLocation
-                region={userRegion}
+                region={{
+                    latitude: location.coords.latitude,
+                    longitude: location.coords.longitude,
+                    latitudeDelta: 0.25,
+                    longitudeDelta: 0.25
+                }}
                 ref={_map}
             >
                 {markers && markers.every(m => m.latitude != null && m.longitude != null) && markers.map((marker, index) => (
