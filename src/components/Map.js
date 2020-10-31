@@ -455,13 +455,13 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     checkmark: {
-        width: 20,
-        height: 20,
+        width: 17,
+        height: 17,
         tintColor: 'green',
     },
     xmark: {
-        width: 15,
-        height: 15,
+        width: 17,
+        height: 17,
         tintColor: 'red',
     },
     headerContainer: {
@@ -522,6 +522,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'flex-start',
         justifyContent: 'space-evenly',
+        // justifyContent: 'center',
         flexDirection: 'row',
         marginTop: 0,
         padding: 5,
