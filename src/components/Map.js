@@ -6,22 +6,26 @@ import * as Location from 'expo-location';
 import { OpenMapDirections } from 'react-native-navigation-directions';
 
 
-const height = Dimensions.get('window');
+const { width } = Math.floor(Dimensions.get('window').width);
+const { height } = Math.floor(Dimensions.get('window').height);
 
 const Map = (props) => {
     const [location, setLocation] = useState({ coords: { latitude: 0, longitude: 0 } });
-    const { width, height } = Dimensions.get('window');
     const _map = useRef(null);
 
     const [markers, setMarkers] = useState([
         {
             "address": "212 West Park Ave, San Ysidro, CA 92173",
-            "appointment": "https://lhi.care/covidtesting",
+            "appointment": "No appointment required",
             "hours": "Tuesday - Saturday: 7 AM - 7 PM",
             "latitude": 32.5548668,
             "longitude": -117.0443825,
             "title": "San Ysidro Civic Center",
-            "type": "This is a Walk-In testing site. No appointment necessary. Testing is free",
+            "isWalkIn": true,
+            "isDriveUp": false,
+            "isAppointmentAvailable": false,
+            "isAppointmentRequired": false,
+            "description": "This is a Walk-In testing site. No appointment necessary. Testing is free",
         },
         {
             "address": "2052 Entertainment Cir, Chula Vista, CA 91911",
@@ -30,7 +34,11 @@ const Map = (props) => {
             "latitude": 32.5873404,
             "longitude": -117.0107804,
             "title": "Chula Vista Aquatica San Diego",
-            "type": "This is a Drive-Up testing site. No appointment necessary. Testing is free",
+            "isWalkIn": false,
+            "isDriveUp": true,
+            "isAppointmentAvailable": false,
+            "isAppointmentRequired": false,
+            "description": "This is a Drive-Up testing site. No appointment necessary. Testing is free",
         },
         {
             "address": "505 Elm Avenue, Imperial Beach, CA 91932",
@@ -39,7 +47,11 @@ const Map = (props) => {
             "latitude": 32.5792622,
             "longitude": -117.1218399,
             "title": "Mar Vista High School",
-            "type": "This is a Drive-Up testing site. No Appointments are required. Testing is free.",
+            "isWalkIn": false,
+            "isDriveUp": true,
+            "isAppointmentAvailable": false,
+            "isAppointmentRequired": false,
+            "description": "This is a Drive-Up testing site. No Appointments are required. Testing is free.",
         },
         {
             "address": "565 Broadway, Chula Vista, CA 91910",
@@ -48,7 +60,11 @@ const Map = (props) => {
             "latitude": 32.6310051,
             "longitude": -117.0836367,
             "title": "Chula Vista (Old Sears building)",
-            "type": "This is a Walk-In testing site. Appointments Available but Not Required. Walk- Ins Welcome.Testing is free.",
+            "isWalkIn": true,
+            "isDriveUp": false,
+            "isAppointmentAvailable": true,
+            "isAppointmentRequired": false,
+            "description": "This is a Walk-In testing site. Appointments Available but Not Required. Walk- Ins Welcome.Testing is free.",
         },
         {
             "address": "410 W 18th St, National City, CA 91950",
@@ -57,7 +73,11 @@ const Map = (props) => {
             "latitude": 32.6656983,
             "longitude": -117.1080542,
             "title": "St. Anthony's of Padua Parking Lot",
-            "type": "This is a Drive-Up testing site. Appointments are required. Testing is free.",
+            "isWalkIn": false,
+            "isDriveUp": true,
+            "isAppointmentAvailable": true,
+            "isAppointmentRequired": true,
+            "description": "This is a Drive-Up testing site. Appointments are required. Testing is free.",
         },
         {
             "address": "1221 D Ave, National City, CA 919150",
@@ -66,7 +86,11 @@ const Map = (props) => {
             "latitude": 32.6730326,
             "longitude": -117.1008332,
             "title": "Kimball Senior Center",
-            "type": "This is a Walk-In testing site.Appointments Available but Not Required. Walk- Ins Welcome.Testing is free.",
+            "isWalkIn": true,
+            "isDriveUp": false,
+            "isAppointmentAvailable": true,
+            "isAppointmentRequired": false,
+            "description": "This is a Walk-In testing site.Appointments Available but Not Required. Walk- Ins Welcome.Testing is free.",
         },
         {
             "address": "292 Euclid Avenue, San Diego, CA 92114",
@@ -75,7 +99,11 @@ const Map = (props) => {
             "latitude": 32.707314,
             "longitude": -117.0860519,
             "title": "Euclid Health Center",
-            "type": "This is a Drive-Up testing site. Appointments are required. Testing is free.",
+            "isWalkIn": false,
+            "isDriveUp": true,
+            "isAppointmentAvailable": true,
+            "isAppointmentRequired": true,
+            "description": "This is a Drive-Up testing site. Appointments are required. Testing is free.",
         },
         {
             "address": "415 Euclid Ave, San Diego, CA 92114",
@@ -84,7 +112,11 @@ const Map = (props) => {
             "latitude": 32.7099393,
             "longitude": -117.0846946,
             "title": "Tubman-Chavez Community Center",
-            "type": "This is a Walk-In testing site. No appointment necessary. Testing is free.",
+            "isWalkIn": true,
+            "isDriveUp": false,
+            "isAppointmentAvailable": false,
+            "isAppointmentRequired": false,
+            "description": "This is a Walk-In testing site. No appointment necessary. Testing is free.",
         },
         {
             "address": "836 Kempton St, Spring Valley, CA 91977",
@@ -93,7 +125,11 @@ const Map = (props) => {
             "latitude": 32.7121974,
             "longitude": -117.0023237,
             "title": "County Fire - Spring Valley County Library",
-            "type": "This is a Drive-Up (Accepts Walk-ins) testing site. Appointments Available but Not Required. Walk- Ins Welcome",
+            "isWalkIn": true,
+            "isDriveUp": true,
+            "isAppointmentAvailable": true,
+            "isAppointmentRequired": false,
+            "description": "This is a Drive-Up (Accepts Walk-ins) testing site. Appointments Available but Not Required. Walk- Ins Welcome",
         },
         {
             "address": "11555 Via Rancho San Diego, El Cajon, CA 92019",
@@ -102,7 +138,11 @@ const Map = (props) => {
             "latitude": 32.7491196,
             "longitude": -116.9289217,
             "title": "County Fire - Rancho San Diego Library",
-            "type": "This is a Drive-Up (Accepts Walk-ins) testing site. Appointments Available but Not Required. Walk- Ins Welcome. Testing is free",
+            "isWalkIn": true,
+            "isDriveUp": true,
+            "isAppointmentAvailable": true,
+            "isAppointmentRequired": false,
+            "description": "This is a Drive-Up (Accepts Walk-ins) testing site. Appointments Available but Not Required. Walk- Ins Welcome. Testing is free",
         },
         {
             "address": "14545 Lyons Valley Road, Jamul, CA 91935",
@@ -111,7 +151,11 @@ const Map = (props) => {
             "latitude": 32.7283233,
             "longitude": -116.8546311,
             "title": "County Fire - Jamul/Deerhorn Jamul Intermediate School",
-            "type": "This is a Drive-Up (Accepts Walk-ins) testing site. Appointments Available but Not Required. Walk- Ins Welcome. Testing is free",
+            "isWalkIn": true,
+            "isDriveUp": true,
+            "isAppointmentAvailable": true,
+            "isAppointmentRequired": false,
+            "description": "This is a Drive-Up (Accepts Walk-ins) testing site. Appointments Available but Not Required. Walk- Ins Welcome. Testing is free",
         },
         {
             "address": "200 South Magnolia Ave, El Cajon, CA 92020",
@@ -120,7 +164,11 @@ const Map = (props) => {
             "latitude": 32.7936558,
             "longitude": -116.9627345,
             "title": "Assessor Recorder County Clerk Building",
-            "type": "This is a Walk-In testing site. Appointments Available but Not Required. Walk- Ins Welcome",
+            "isWalkIn": true,
+            "isDriveUp": false,
+            "isAppointmentAvailable": true,
+            "isAppointmentRequired": false,
+            "description": "This is a Walk-In testing site. Appointments Available but Not Required. Walk- Ins Welcome",
         },
         {
             "address": "4915 Dehesa Rd, El Cajon CA 92019",
@@ -129,7 +177,11 @@ const Map = (props) => {
             "latitude": 32.78790014162771,
             "longitude": -116.84520434908,
             "title": "Sycuan Market",
-            "type": "This is a Drive-Up testing site. Appointments are required. Testing is free.",
+            "isWalkIn": false,
+            "isDriveUp": true,
+            "isAppointmentAvailable": true,
+            "isAppointmentRequired": true,
+            "description": "This is a Drive-Up testing site. Appointments are required. Testing is free.",
         },
         {
             "address": "8460 Mira Mesa Blvd. San Diego, CA 92126",
@@ -138,7 +190,11 @@ const Map = (props) => {
             "latitude": 32.9133438,
             "longitude": -117.140488,
             "title": "Mira Mesa Senior Center",
-            "type": "This is a Drive-Up testing site. Appointments are required. Testing is free.",
+            "isWalkIn": false,
+            "isDriveUp": true,
+            "isAppointmentAvailable": true,
+            "isAppointmentRequired": true,
+            "description": "This is a Drive-Up testing site. Appointments are required. Testing is free.",
         },
         {
             "address": "260 N. Escondido Blvd, Escondido CA, 92025",
@@ -147,7 +203,11 @@ const Map = (props) => {
             "latitude": 33.12194383887574,
             "longitude": -117.08513086368667,
             "title": "California Center for the Arts, Escondido Center Theater",
-            "type": "This is a Walk-In testing site. Appointments Available but Not Required. Walk- Ins Welcome. Testing is free",
+            "isWalkIn": true,
+            "isDriveUp": false,
+            "isAppointmentAvailable": true,
+            "isAppointmentRequired": false,
+            "description": "This is a Walk-In testing site. Appointments Available but Not Required. Walk- Ins Welcome. Testing is free",
         },
         {
             "address": "333 S. Twin Oaks Valley Rd, San Marcos, CA 92078",
@@ -156,7 +216,11 @@ const Map = (props) => {
             "latitude": 33.1285209,
             "longitude": -117.1626994,
             "title": "Cal State University San Marcos, Viasat Engineering Pavilion",
-            "type": "This is a Walk-In testing site. No appointment necessary. Testing is free.",
+            "isWalkIn": true,
+            "isDriveUp": false,
+            "isAppointmentAvailable": false,
+            "isAppointmentRequired": false,
+            "description": "This is a Walk-In testing site. No appointment necessary. Testing is free.",
         },
         {
             "address": "795 E. San Ysidro Blvd, San Ysidro, CA 92173",
@@ -165,7 +229,11 @@ const Map = (props) => {
             "latitude": 32.5436704,
             "longitude": -117.0286176,
             "title": "San Ysidro Border Test Site",
-            "type": "This is a Walk-In testing site. No appointment necessary. Testing is free.",
+            "isWalkIn": true,
+            "isDriveUp": false,
+            "isAppointmentAvailable": false,
+            "isAppointmentRequired": false,
+            "description": "This is a Walk-In testing site. No appointment necessary. Testing is free.",
         },
         {
             "address": "389 Orange Avenue, 91911",
@@ -173,8 +241,12 @@ const Map = (props) => {
             "hours": "Sunday -  12:30 PM - 8 PM",
             "latitude": 32.6018016,
             "longitude": -117.0680779,
-            "title": "Chula Vista,�South Chula Vista Branch Library",
-            "type": "This is a Drive-Up testing site. No appointment necessary. Testing is free",
+            "title": "Chula Vista, South Chula Vista Branch Library",
+            "isWalkIn": false,
+            "isDriveUp": true,
+            "isAppointmentAvailable": false,
+            "isAppointmentRequired": false,
+            "description": "This is a Drive-Up testing site. No appointment necessary. Testing is free",
         },
         {
             "address": "5330 Linda Vista Rd, San Diego, CA 92110",
@@ -183,7 +255,11 @@ const Map = (props) => {
             "latitude": 32.7670995,
             "longitude": -117.1964758,
             "title": "San Diego, Former USD Electronics Recycling Center",
-            "type": "This is a Walk-In testing site. No appointment necessary. Testing is free",
+            "isWalkIn": true,
+            "isDriveUp": false,
+            "isAppointmentAvailable": false,
+            "isAppointmentRequired": false,
+            "description": "This is a Walk-In testing site. No appointment necessary. Testing is free",
         },
         {
             "address": "1549 India St, San Diego, CA 92101",
@@ -192,7 +268,11 @@ const Map = (props) => {
             "latitude": 32.721612,
             "longitude": -117.1679967,
             "title": "San Diego, Mexican Consulate",
-            "type": "This is a Walk-In testing site. No appointment necessary. Testing is free.",
+            "isWalkIn": true,
+            "isDriveUp": false,
+            "isAppointmentAvailable": false,
+            "isAppointmentRequired": false,
+            "description": "This is a Walk-In testing site. No appointment necessary. Testing is free.",
         },
         {
             "address": "5222 Trojan Ave, San Diego, CA 92115",
@@ -201,7 +281,11 @@ const Map = (props) => {
             "latitude": 32.7551417,
             "longitude": -117.0831373,
             "title": "San Diego, Chicano Federation: Trojan Place",
-            "type": "This is a Walk-In testing site. No appointment necessary. Testing is free",
+            "isWalkIn": true,
+            "isDriveUp": false,
+            "isAppointmentAvailable": false,
+            "isAppointmentRequired": false,
+            "description": "This is a Walk-In testing site. No appointment necessary. Testing is free",
         },
         {
             "address": "5250 55th St, San Diego, CA 92182",
@@ -210,7 +294,11 @@ const Map = (props) => {
             "latitude": 32.77286592192972,
             "longitude": -117.07638231107813,
             "title": "San Diego State University (SDSU) Parma Payne Goodall Alumni Center",
-            "type": "This is a Walk-In testing site. No appointment necessary. Testing is free",
+            "isWalkIn": true,
+            "isDriveUp": false,
+            "isAppointmentAvailable": false,
+            "isAppointmentRequired": false,
+            "description": "This is a Walk-In testing site. No appointment necessary. Testing is free",
         },
         {
             "address": "936 Genevieve St, Solana Beach, CA 92075",
@@ -219,7 +307,11 @@ const Map = (props) => {
             "latitude": 32.9898095,
             "longitude": -117.2566499,
             "title": "Solana Beach, St. Leo Mission Church",
-            "type": "This is a Drive-Up testing site. Appointments are required. Testing is free",
+            "isWalkIn": false,
+            "isDriveUp": true,
+            "isAppointmentAvailable": true,
+            "isAppointmentRequired": true,
+            "description": "This is a Drive-Up testing site. Appointments are required. Testing is free",
         },
         {
             "address": "2001 Tavern Rd, Alpine, CA 91901",
@@ -228,7 +320,11 @@ const Map = (props) => {
             "latitude": 32.8250122,
             "longitude": -116.7734689,
             "title": "Alpine, County Fire - Alpine Joan MacQueen School",
-            "type": "This is a Drive-Up (Accepts Walk-ins) testing site. Appointments Available but Not Required. Walk- Ins Welcome. Testing is free",
+            "isWalkIn": true,
+            "isDriveUp": true,
+            "isAppointmentAvailable": true,
+            "isAppointmentRequired": false,
+            "description": "This is a Drive-Up (Accepts Walk-ins) testing site. Appointments Available but Not Required. Walk- Ins Welcome. Testing is free",
         },
         {
             "address": "1401 Hanson Lane, Ramona, CA 92065",
@@ -237,10 +333,13 @@ const Map = (props) => {
             "latitude": 33.0275076,
             "longitude": -116.8691171,
             "title": "Ramona, County Fire - Ramona High School",
-            "type": "This is a Drive-Up (Accepts Walk-ins) testing site. Appointments Available but Not Required. Walk- Ins Welcome. Testing is free.",
+            "isWalkIn": true,
+            "isDriveUp": true,
+            "isAppointmentAvailable": true,
+            "isAppointmentRequired": false,
+            "description": "This is a Drive-Up (Accepts Walk-ins) testing site. Appointments Available but Not Required. Walk- Ins Welcome. Testing is free.",
         },
     ]);
-    const GOOGLE_MAPS_APIKEY = 'AIzaSyALxVcQZDG7p4qh_89RmPJ8pguo-mtYyRI';
 
     useEffect(() => {
         (async () => {
@@ -309,12 +408,23 @@ const Map = (props) => {
                     >
 
                         <Callout tooltip onPress={() => { Platform.OS == 'android' && marker.latitude && marker.longitude ? OpenMapDirections(null, { latitude: marker.latitude, longitude: marker.longitude }, 'd') : null }}>
-                            <View style={styles.calloutStyle}>
-                                <Text style={styles.calloutHeader}>{marker.title}</Text>
-                                <Text style={styles.calloutAddress}>{marker.address}</Text>
+                            <View style={[styles.calloutStyle, { maxWidth: width }]}>
+                                {/* Title */}
+                                <Text style={[styles.calloutHeader, { maxWidth: width }]}>{marker.title}</Text>
+                                {/* Address */}
+                                <Text style={[styles.calloutAddress, { maxWidth: width }]}>{marker.address}</Text>
+                                {/* Hours */}
+                                <Text style={[styles.calloutAddress, { maxWidth: width }]}>{marker.hours}</Text>
+                                {/* Walk-In, Drive-Up, and testing */}
                                 <View style={styles.siteInfoContainer}>
-                                    <Text style={styles.sitInfoText}>Walk-in  <Image source={require('../../assets/checkmark.png')} style={styles.icons} /></Text>
-                                    <Text style={styles.sitInfoText}>Appointment Needed  <Image source={require('../../assets/checkmark.png')} style={styles.icons} /></Text>
+                                    <Text style={styles.sitInfoText}>Walk-in  {marker.isWalkIn ? <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /> : <Image source={require('../../assets/xmark.png')} style={styles.xmark} />} </Text>
+                                    <Text style={styles.sitInfoText}>Drive-up  {marker.isDriveUp ? <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /> : <Image source={require('../../assets/xmark.png')} style={styles.xmark} />} </Text>
+                                    <Text style={styles.sitInfoText}>Testing Free <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /></Text>
+                                </View>
+                                {/* Appointments */}
+                                <View style={styles.siteInfoContainer}>
+                                    <Text style={styles.sitInfoText}>Appointments: Available {marker.isAppointmentAvailable ? <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /> : <Image source={require('../../assets/xmark.png')} style={styles.xmark} />} </Text>
+                                    <Text style={styles.sitInfoText}>Required  {marker.isAppointmentRequired ? <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /> : <Image source={require('../../assets/xmark.png')} style={styles.xmark} />} </Text>
                                 </View>
                                 <View style={styles.buttonContainer}>
                                     <Button
@@ -342,12 +452,17 @@ const Map = (props) => {
 const styles = StyleSheet.create({
     map: {
         height: '100%',
-        width: '100%',
+        width: '100%'
     },
-    icons: {
+    checkmark: {
         width: 20,
         height: 20,
-        tintColor: 'green'
+        tintColor: 'green',
+    },
+    xmark: {
+        width: 15,
+        height: 15,
+        tintColor: 'red',
     },
     headerContainer: {
         padding: 20,
@@ -391,9 +506,9 @@ const styles = StyleSheet.create({
     calloutHeader: {
         fontSize: 16,
         fontWeight: 'bold',
-        marginLeft: 10,
-        marginTop: 10,
-        marginRight: 10,
+        marginLeft: 5,
+        marginTop: 5,
+        marginRight: 5,
     },
     calloutAddress: {
         fontSize: 15,
@@ -405,15 +520,14 @@ const styles = StyleSheet.create({
     },
     siteInfoContainer: {
         flex: 1,
-        alignContent: 'center',
+        alignItems: 'flex-start',
         justifyContent: 'space-evenly',
         flexDirection: 'row',
-        marginTop: 10,
+        marginTop: 0,
         padding: 5,
-        width: '100%',
     },
     siteInfoText: {
-        marginRight: 5
+        margin: 25,
     },
     buttonContainer: {
         flex: 1,
