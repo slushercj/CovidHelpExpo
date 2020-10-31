@@ -293,7 +293,7 @@ const Map = (props) => {
             "hours": "Monday - Friday: 8:30 AM - 4 PM",
             "latitude": 32.77286592192972,
             "longitude": -117.07638231107813,
-            "title": "San Diego State University (SDSU) Parma Payne Goodall Alumni Center",
+            "title": "SDSU Parma Payne Goodall Alumni Center",
             "isWalkIn": true,
             "isDriveUp": false,
             "isAppointmentAvailable": false,
@@ -338,6 +338,48 @@ const Map = (props) => {
             "isAppointmentAvailable": true,
             "isAppointmentRequired": false,
             "description": "This is a Drive-Up (Accepts Walk-ins) testing site. Appointments Available but Not Required. Walk- Ins Welcome. Testing is free.",
+        },
+        {
+            "address": "404 Euclid Ave. San Diego, CA",
+            "appointment": "",
+            "hours": "Tuesday 12-4pm",
+            "latitude": 32.7092293,
+            "longitude": -117.0876539,
+            "title": "Jacob Center",
+            "isWalkIn": true,
+            "isDriveUp": false,
+            "isAppointmentAvailable": false,
+            "isAppointmentRequired": false,
+            "isFoodDist": true,
+            "description": "",
+        },
+        {
+            "address": "6601 Imperial Ave. San Diego, CA",
+            "appointment": "",
+            "hours": "Friday 11-2pm",
+            "latitude": 32.7104482,
+            "longitude": -117.0559976,
+            "title": "Food Distribution Location",
+            "isWalkIn": true,
+            "isDriveUp": false,
+            "isAppointmentAvailable": false,
+            "isAppointmentRequired": false,
+            "isFoodDist": true,
+            "description": "",
+        },
+        {
+            "address": "7373 Tooma St. San Diego, CA",
+            "appointment": "",
+            "hours": "Friday 11-2pm",
+            "latitude": 32.6807999,
+            "longitude": -117.03558,
+            "title": "Food Distribution Location",
+            "isWalkIn": true,
+            "isDriveUp": false,
+            "isAppointmentAvailable": false,
+            "isAppointmentRequired": false,
+            "isFoodDist": true,
+            "description": "",
         },
     ]);
 
@@ -415,24 +457,29 @@ const Map = (props) => {
                                 <Text style={[styles.calloutAddress, { maxWidth: width }]}>{marker.address}</Text>
                                 {/* Hours */}
                                 <Text style={[styles.calloutAddress, { maxWidth: width }]}>{marker.hours}</Text>
+
                                 {/* Walk-In, Drive-Up, and testing */}
-                                <View style={styles.siteInfoContainer}>
+                                {!marker.isFoodDist ? <View style={styles.siteInfoContainer}>
                                     <Text style={styles.sitInfoText}>Walk-in  {marker.isWalkIn ? <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /> : <Image source={require('../../assets/xmark.png')} style={styles.xmark} />} </Text>
                                     <Text style={styles.sitInfoText}>Drive-up  {marker.isDriveUp ? <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /> : <Image source={require('../../assets/xmark.png')} style={styles.xmark} />} </Text>
                                     <Text style={styles.sitInfoText}>Testing Free <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /></Text>
-                                </View>
+                                </View> : null}
+
                                 {/* Appointments */}
-                                <View style={styles.siteInfoContainer}>
+                                {!marker.isFoodDist ? <View style={styles.siteInfoContainer}>
                                     <Text style={styles.sitInfoText}>Appointments: Available {marker.isAppointmentAvailable ? <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /> : <Image source={require('../../assets/xmark.png')} style={styles.xmark} />} </Text>
                                     <Text style={styles.sitInfoText}>Required  {marker.isAppointmentRequired ? <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /> : <Image source={require('../../assets/xmark.png')} style={styles.xmark} />} </Text>
-                                </View>
+                                </View> : null}
+
+
                                 <View style={styles.buttonContainer}>
                                     <Button
-                                        disabled={marker.appointment == null}
-                                        title={marker.appointment ? 'Set Appointment' : 'No Appointment Required'}
+                                        disabled={!marker.isAppointmentAvailable}
+                                        title='Set Appointment'
                                         style={styles.buttonStyle}
                                         onPress={() => Linking.canOpenURL(marker.appointment) ? Linking.openURL(marker.appointment) : null}
                                     ></Button>
+
                                     <Button
                                         title='Navigate'
                                         style={styles.buttonStyle}
