@@ -199,7 +199,7 @@ const Map = (props) => {
         {
             "address": "260 N. Escondido Blvd, Escondido CA, 92025",
             "appointment": "https://lhi.care/covidtesting",
-            "hours": "Tuesday - Saturday: 7 AM � 7 PM",
+            "hours": "Tuesday - Saturday: 7 AM - 7 PM",
             "latitude": 33.12194383887574,
             "longitude": -117.08513086368667,
             "title": "California Center for the Arts, Escondido Center Theater",
