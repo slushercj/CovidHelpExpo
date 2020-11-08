@@ -12,6 +12,7 @@ const { height } = Math.floor(Dimensions.get('window').height);
 const Map = (props) => {
     const [location, setLocation] = useState({ coords: { latitude: 0, longitude: 0 } });
     const _map = useRef(null);
+    const maxTitleLength = 42;
 
     const [markers, setMarkers] = useState([
         {
@@ -434,7 +435,7 @@ const Map = (props) => {
                     latitude: location.coords.latitude,
                     longitude: location.coords.longitude,
                     latitudeDelta: 0.45,
-                    longitudeDelta: 0.25
+                    longitudeDelta: 0.45
                 }}
                 ref={_map}
             >
@@ -451,7 +452,7 @@ const Map = (props) => {
                         <Callout tooltip onPress={() => { Platform.OS == 'android' && marker.latitude && marker.longitude ? OpenMapDirections(null, { latitude: marker.latitude, longitude: marker.longitude }, 'd') : null }}>
                             <View style={[styles.calloutStyle, { maxWidth: width }]}>
                                 {/* Title */}
-                                <Text style={[styles.calloutHeader, { maxWidth: width }]}>{marker.title}</Text>
+                                <Text style={[styles.calloutHeader, { maxWidth: width }]}>{marker.title.length > maxTitleLength ? `${marker.title.substring(0, maxTitleLength)}...` : marker.title}</Text>
                                 {/* Address */}
                                 <Text style={[styles.calloutAddress, { maxWidth: width }]}>{marker.address}</Text>
                                 {/* Hours */}
@@ -466,8 +467,9 @@ const Map = (props) => {
 
                                 {/* Appointments */}
                                 {!marker.isFoodDist ? <View style={styles.siteInfoContainer}>
-                                    <Text style={styles.sitInfoText}>Appts: Needed {marker.isAppointmentAvailable ? <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /> : <Image source={require('../../assets/xmark.png')} style={styles.xmark} />} </Text>
-                                    <Text style={styles.sitInfoText}>Required  {marker.isAppointmentRequired ? <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /> : <Image source={require('../../assets/xmark.png')} style={styles.xmark} />} </Text>
+                                    <Text style={styles.sitInfoText}>Appt: Required  {marker.isAppointmentRequired ? <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /> : <Image source={require('../../assets/xmark.png')} style={styles.xmark} />} </Text>
+                                    <Text style={styles.sitInfoText}>Optional  {!marker.isAppointmentRequired && marker.isAppointmentAvailable ? <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /> : <Image source={require('../../assets/xmark.png')} style={styles.xmark} />} </Text>
+                                    <Text style={styles.sitInfoText}>Not Needed  {!marker.isAppointmentRequired && !marker.isAppointmentAvailable ? <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /> : <Image source={require('../../assets/xmark.png')} style={styles.xmark} />} </Text>
                                 </View> : null}
 
 
