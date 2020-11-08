@@ -428,13 +428,12 @@ const Map = (props) => {
             <MapView
                 style={styles.map}
                 showsUserLocation
-                zoomEnabled
                 zoomControlEnabled
                 followsUserLocation
                 region={{
                     latitude: location.coords.latitude,
                     longitude: location.coords.longitude,
-                    latitudeDelta: 0.25,
+                    latitudeDelta: 0.45,
                     longitudeDelta: 0.25
                 }}
                 ref={_map}
@@ -467,7 +466,7 @@ const Map = (props) => {
 
                                 {/* Appointments */}
                                 {!marker.isFoodDist ? <View style={styles.siteInfoContainer}>
-                                    <Text style={styles.sitInfoText}>Appointments: Available {marker.isAppointmentAvailable ? <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /> : <Image source={require('../../assets/xmark.png')} style={styles.xmark} />} </Text>
+                                    <Text style={styles.sitInfoText}>Appts: Needed {marker.isAppointmentAvailable ? <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /> : <Image source={require('../../assets/xmark.png')} style={styles.xmark} />} </Text>
                                     <Text style={styles.sitInfoText}>Required  {marker.isAppointmentRequired ? <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /> : <Image source={require('../../assets/xmark.png')} style={styles.xmark} />} </Text>
                                 </View> : null}
 
@@ -549,6 +548,7 @@ const styles = StyleSheet.create({
         borderColor: '#777777',
         borderRadius: 10,
         borderWidth: 1,
+        padding: 5
     },
     calloutHeader: {
         fontSize: 16,
@@ -560,7 +560,7 @@ const styles = StyleSheet.create({
     calloutAddress: {
         fontSize: 15,
         marginLeft: 5,
-        marginRight: 5,
+        marginRight: 5
     },
     buttonStyle: {
         fontSize: 8
@@ -571,7 +571,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         // justifyContent: 'center',
         flexDirection: 'row',
-        marginTop: 0,
+        marginTop: 2,
         padding: 5,
     },
     siteInfoText: {
