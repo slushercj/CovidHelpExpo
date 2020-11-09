@@ -463,7 +463,7 @@ const Map = (props) => {
                         tooltip={true}
                     >
 
-                        <Callout tooltip onPress={() => { Platform.OS == 'android' && marker.latitude && marker.longitude ? OpenMapDirections(null, { latitude: marker.latitude, longitude: marker.longitude }, 'd') : null }}>
+                        <Callout tooltip>
                             <View style={[styles.calloutStyle, { maxWidth: width }]}>
                                 {/* Title */}
                                 <Text style={[styles.calloutHeader, { maxWidth: width }]}>{marker.title.length > maxTitleLength ? `${marker.title.substring(0, maxTitleLength)}...` : marker.title}</Text>
