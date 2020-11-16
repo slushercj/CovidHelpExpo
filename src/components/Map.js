@@ -174,7 +174,7 @@ const Map = (props) => {
         {
             "address": "4915 Dehesa Rd, El Cajon CA 92019",
             "appointment": "https://covidtest.sandiegocounty.gov/healthbook",
-            "hours": "Monday - Thursday: 8:30 AM - 12:00 PM and 1:00 - 3:30 PM",
+            "hours": "Mon - Th: 8:30 AM - 12:00 PM and 1:00 - 3:30 PM",
             "latitude": 32.78790014162771,
             "longitude": -116.84520434908,
             "title": "Sycuan Market",
@@ -510,7 +510,7 @@ const Map = (props) => {
 
                     {!currentMarker.isFoodDist && !currentMarker.isAppointmentRequired && !currentMarker.isAppointmentAvailable ?
                         <View style={styles.siteInfoContainer}>
-                            <Text style={styles.sitInfoText}>Appointment Not Available </Text>
+                            <Text style={styles.sitInfoText}>No Appointment Necessary </Text>
                         </View> : null}
 
                     <View style={styles.buttonContainer}>
@@ -592,7 +592,7 @@ const Map = (props) => {
 
                                     {!marker.isFoodDist && !marker.isAppointmentRequired && !marker.isAppointmentAvailable ?
                                         <View style={styles.siteInfoContainer}>
-                                            <Text style={styles.sitInfoText}>Appointment Not Available </Text>
+                                            <Text style={styles.sitInfoText}>No Appointment Necessary </Text>
                                         </View> : null}
 
 
@@ -701,6 +701,7 @@ const styles = StyleSheet.create({
         margin: 25,
     },
     buttonContainer: {
+        flexShrink: 1,
         alignContent: 'center',
         justifyContent: 'space-evenly',
         flexDirection: 'row',
