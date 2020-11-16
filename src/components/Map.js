@@ -6,13 +6,12 @@ import * as Location from 'expo-location';
 import { OpenMapDirections } from 'react-native-navigation-directions';
 
 
-const { width } = Math.floor(Dimensions.get('window').width);
-const { height } = Math.floor(Dimensions.get('window').height);
+const { width, height } = Dimensions.get('window');
 
 const Map = (props) => {
-    const [location, setLocation] = useState({ coords: { latitude: 0, longitude: 0 } });
+    const [location, setLocation] = useState({ latitude: 32.78915, longitude: -117.0524 });
     const [currentMarker, setCurrentMarker] = useState(null);
-    const _map = useRef(null);
+    const mapRef = useRef(null);
     const maxTitleLength = 42;
 
     const [markers, setMarkers] = useState([
@@ -407,10 +406,13 @@ const Map = (props) => {
                 return;
             }
 
-            let location = await Location.getCurrentPositionAsync().catch(l => {
+            await Location.getCurrentPositionAsync().then((r) => {
+                setLocation(r.coords);
+            }).catch(l => {
                 alert(l);
             });
-            setLocation(location);
+
+            // _map.root.animateToRegion(location, 1000);
 
             const newMarkers = [];
 
@@ -434,6 +436,11 @@ const Map = (props) => {
         })()
     }, []);
 
+    function onMarkerPress(mapEventData) {
+        setCurrentMarker(markers[parseInt(mapEventData.nativeEvent.id)]);
+    };
+
+    // Android
     if (Platform.OS == 'android') {
         return (
             <View style={{ height: '100%', backgroundColor: '#000' }}>
@@ -445,28 +452,28 @@ const Map = (props) => {
                 {/* Map */}
                 <View style={{ flex: 6 }}>
                     <MapView
-                        style={styles.map}
+                        ref={mapRef}
+                        style={styles.map} rr
                         showsUserLocation
                         zoomControlEnabled
-                        followsUserLocation
-                        region={{
-                            latitude: location.coords.latitude,
-                            longitude: location.coords.longitude,
+                        // onLayout={() => _map.root.animateToRegion(location.coords)}
+                        onPress={() => setCurrentMarker(null)}
+                        onRegionChangeComplete={(region) => console.log(region)}
+                        initialRegion={{
+                            latitude: location.latitude,
+                            longitude: location.longitude,
                             latitudeDelta: 0.45,
                             longitudeDelta: 0.45
                         }}
-                        ref={_map}
-                        tooltip={false}
-                        onPress={() => setCurrentMarker(null)}
-                        onMarkerPress={(event) => setCurrentMarker(markers[parseInt(event.nativeEvent.id)])}
+                        onMapReady={() => mapRef.current.fitToCoordinates()}
+                    // onRegionChange={() => { console.warn(`region changed!`) }}
                     >
                         {markers && markers.every(m => m.latitude != null && m.longitude != null) && markers.map((marker, index) => (
                             <Marker
                                 identifier={index.toString()}
                                 key={index}
-                                title={marker.title}
                                 coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
-                                description={marker.address}
+                                onPress={(e) => onMarkerPress(e)}
                                 pinColor={marker.isFoodDist ? '#3300ff' : '#ff0000'}
                                 tooltip={false}
                             />
@@ -475,7 +482,7 @@ const Map = (props) => {
                 </View>
 
                 {/* Footer */}
-                {currentMarker && <View style={{ flex: 3, backgroundColor: 'white' }}>
+                {currentMarker && <View style={{ flex: 2, backgroundColor: 'white' }}>
                     {/* Title */}
                     <Text style={[styles.calloutHeader, { maxWidth: width }]}>{currentMarker.title.length > maxTitleLength ? `${currentMarker.title.substring(0, maxTitleLength)}...` : currentMarker.title}</Text>
                     {/* Address */}
@@ -491,11 +498,20 @@ const Map = (props) => {
                     </View> : null}
 
                     {/* Appointments */}
-                    {!currentMarker.isFoodDist ? <View style={styles.siteInfoContainer}>
-                        <Text style={styles.sitInfoText}>Appt: Required  {currentMarker.isAppointmentRequired ? <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /> : <Image source={require('../../assets/xmark.png')} style={styles.xmark} />} </Text>
-                        <Text style={styles.sitInfoText}>Optional  {!currentMarker.isAppointmentRequired && currentMarker.isAppointmentAvailable ? <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /> : <Image source={require('../../assets/xmark.png')} style={styles.xmark} />} </Text>
-                        <Text style={styles.sitInfoText}>Not Needed  {!currentMarker.isAppointmentRequired && !currentMarker.isAppointmentAvailable ? <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /> : <Image source={require('../../assets/xmark.png')} style={styles.xmark} />} </Text>
-                    </View> : null}
+                    {!currentMarker.isFoodDist && currentMarker.isAppointmentRequired ?
+                        <View style={styles.siteInfoContainer}>
+                            <Text style={styles.sitInfoText}>Appointment Required </Text>
+                        </View> : null}
+
+                    {!currentMarker.isFoodDist && !currentMarker.isAppointmentRequired && currentMarker.isAppointmentAvailable ?
+                        <View style={styles.siteInfoContainer}>
+                            <Text style={styles.sitInfoText}>Appointment Available, Not Required </Text>
+                        </View> : null}
+
+                    {!currentMarker.isFoodDist && !currentMarker.isAppointmentRequired && !currentMarker.isAppointmentAvailable ?
+                        <View style={styles.siteInfoContainer}>
+                            <Text style={styles.sitInfoText}>Appointment Not Available </Text>
+                        </View> : null}
 
                     <View style={styles.buttonContainer}>
                         <Button
@@ -515,6 +531,7 @@ const Map = (props) => {
             </View>
         )
     }
+    // iOS
     else
         return (
 
@@ -529,12 +546,12 @@ const Map = (props) => {
                     zoomControlEnabled
                     followsUserLocation
                     region={{
-                        latitude: location.coords.latitude,
-                        longitude: location.coords.longitude,
+                        latitude: location.latitude,
+                        longitude: location.longitude,
                         latitudeDelta: 0.45,
                         longitudeDelta: 0.45
                     }}
-                    ref={_map}
+                    ref={mapRef}
                 >
                     {markers && markers.every(m => m.latitude != null && m.longitude != null) && markers.map((marker, index) => (
                         <Marker
@@ -563,11 +580,20 @@ const Map = (props) => {
                                     </View> : null}
 
                                     {/* Appointments */}
-                                    {!marker.isFoodDist ? <View style={styles.siteInfoContainer}>
-                                        <Text style={styles.sitInfoText}>Appt: Required  {marker.isAppointmentRequired ? <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /> : <Image source={require('../../assets/xmark.png')} style={styles.xmark} />} </Text>
-                                        <Text style={styles.sitInfoText}>Optional  {!marker.isAppointmentRequired && marker.isAppointmentAvailable ? <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /> : <Image source={require('../../assets/xmark.png')} style={styles.xmark} />} </Text>
-                                        <Text style={styles.sitInfoText}>Not Needed  {!marker.isAppointmentRequired && !marker.isAppointmentAvailable ? <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /> : <Image source={require('../../assets/xmark.png')} style={styles.xmark} />} </Text>
-                                    </View> : null}
+                                    {!marker.isFoodDist && marker.isAppointmentRequired ?
+                                        <View style={styles.siteInfoContainer}>
+                                            <Text style={styles.sitInfoText}>Appointment Required</Text>
+                                        </View> : null}
+
+                                    {!marker.isFoodDist && !marker.isAppointmentRequired && marker.isAppointmentAvailable ?
+                                        <View style={styles.siteInfoContainer}>
+                                            <Text style={styles.sitInfoText}>Appointment Available, Not Required </Text>
+                                        </View> : null}
+
+                                    {!marker.isFoodDist && !marker.isAppointmentRequired && !marker.isAppointmentAvailable ?
+                                        <View style={styles.siteInfoContainer}>
+                                            <Text style={styles.sitInfoText}>Appointment Not Available </Text>
+                                        </View> : null}
 
 
                                     <View style={styles.buttonContainer}>
