@@ -450,7 +450,7 @@ const Map = (props) => {
                 </View>
 
                 {/* Map */}
-                <View style={{ flex: 6 }}>
+                <View style={{ flex: 7 }}>
                     <MapView
                         ref={mapRef}
                         style={styles.map} rr
@@ -482,7 +482,7 @@ const Map = (props) => {
                 </View>
 
                 {/* Footer */}
-                {currentMarker && <View style={{ flex: 2, backgroundColor: 'white' }}>
+                {currentMarker && <View style={{ flex: 3, backgroundColor: 'white', alignItems: 'center' }}>
                     {/* Title */}
                     <Text style={[styles.calloutHeader, { maxWidth: width }]}>{currentMarker.title.length > maxTitleLength ? `${currentMarker.title.substring(0, maxTitleLength)}...` : currentMarker.title}</Text>
                     {/* Address */}
@@ -688,22 +688,19 @@ const styles = StyleSheet.create({
         marginRight: 5
     },
     buttonStyle: {
-        fontSize: 8
+        fontSize: 8,
     },
     siteInfoContainer: {
-        flex: 1,
         alignItems: 'flex-start',
         justifyContent: 'space-evenly',
         // justifyContent: 'center',
         flexDirection: 'row',
-        marginTop: 2,
         padding: 5,
     },
     siteInfoText: {
         margin: 25,
     },
     buttonContainer: {
-        flex: 1,
         alignContent: 'center',
         justifyContent: 'space-evenly',
         flexDirection: 'row',
