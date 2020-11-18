@@ -541,10 +541,9 @@ const Map = (props) => {
 
                 <MapView
                     style={styles.map}
-                    showsUserLocation
-                    zoomControlEnabled
-                    followsUserLocation
-                    region={{
+                    showsUserLocation={true}
+                    zoomControlEnabled={false}
+                    initialRegion={{
                         latitude: location.latitude,
                         longitude: location.longitude,
                         latitudeDelta: 0.45,
