@@ -458,7 +458,6 @@ const Map = (props) => {
                         zoomControlEnabled
                         // onLayout={() => _map.root.animateToRegion(location.coords)}
                         onPress={() => setCurrentMarker(null)}
-                        onRegionChangeComplete={(region) => console.log(region)}
                         initialRegion={{
                             latitude: location.latitude,
                             longitude: location.longitude,
@@ -482,7 +481,7 @@ const Map = (props) => {
                 </View>
 
                 {/* Footer */}
-                {currentMarker && <View style={{ flex: 3, backgroundColor: 'white', alignItems: 'center' }}>
+                {currentMarker && <View style={{ flex: 0, justifyContent: 'flex-end', flexShrink: 1, backgroundColor: 'white', alignItems: 'center' }}>
                     {/* Title */}
                     <Text style={[styles.calloutHeader, { maxWidth: width }]}>{currentMarker.title.length > maxTitleLength ? `${currentMarker.title.substring(0, maxTitleLength)}...` : currentMarker.title}</Text>
                     {/* Address */}
