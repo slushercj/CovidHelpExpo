@@ -17,12 +17,16 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.codeboss.covidhelp",
+      "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "android": {
+      "package": "com.codeboss.covidhelp",
+      "versionCode": 1,
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyALxVcQZDG7p4qh_89RmPJ8pguo-mtYyRI"
