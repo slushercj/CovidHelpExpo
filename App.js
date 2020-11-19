@@ -1,9 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { View } from 'react-native';
 import MapScreen from './src/screens/MapScreen';
-import { setNavigator } from "./src/navigationRef";
+import Amplify from 'aws-amplify';
+import awsconfig from './aws-exports';
+
+Amplify.configure(awsconfig);
 
 const AppsScreen = () => {
   return (

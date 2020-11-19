@@ -4,7 +4,7 @@
     "slug": "covid-help",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/virus-battle.png",
     "splash": {
       "image": "./assets/splashscreen.png",
       "resizeMode": "contain",

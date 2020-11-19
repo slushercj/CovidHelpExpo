@@ -1,10 +1,10 @@
 import _ from 'lodash';
-import MapView, { Marker, Callout, CalloutSubview, OverlayComponent } from 'react-native-maps';
+import MapView, { Marker, Callout } from 'react-native-maps';
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, Dimensions, Image, Button, Platform, Linking, Modal } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image, Button, Platform, Linking } from 'react-native';
 import * as Location from 'expo-location';
 import { OpenMapDirections } from 'react-native-navigation-directions';
-
+import Amplify, { Analytics, Logger } from 'aws-amplify';
 
 const { width, height } = Dimensions.get('window');
 
@@ -437,8 +437,21 @@ const Map = (props) => {
     }, []);
 
     function onMarkerPress(mapEventData) {
-        setCurrentMarker(markers[parseInt(mapEventData.nativeEvent.id)]);
+        let selectedMarker = markers[parseInt(mapEventData.nativeEvent.id)];
+
+        Analytics.record({ name: 'Pin Selected', attributes: [`IsFoodDistribution: ${!!selectedMarker.isFoodDist}`, `Title: ${selectedMarker.title}`, `Address: ${selectedMarker.address}`] });
+        setCurrentMarker(selectedMarker);
     };
+
+    const onNavigate = (address) => {
+        Analytics.record({ name: 'Navigation Clicked', attributes: [`IsFoodDistribution: ${address.isFoodDist}`] });
+        return address && OpenMapDirections(null, address, 'd');
+    }
+
+    const onSetAppointment = (url) => {
+        Analytics.record({ name: 'Appointment Clicked' });
+        return Linking.canOpenURL(url) ? Linking.openURL(url) : null;
+    }
 
     // Android
     if (Platform.OS == 'android') {
@@ -517,13 +530,13 @@ const Map = (props) => {
                             disabled={!currentMarker.isAppointmentAvailable}
                             title='Set Appointment'
                             style={styles.buttonStyle}
-                            onPress={() => Linking.canOpenURL(currentMarker.appointment) ? Linking.openURL(currentMarker.appointment) : null}
+                            onPress={() => onSetAppointment(currentMarker.appointment)}
                         ></Button>
 
                         <Button
                             title='Navigate'
                             style={styles.buttonStyle}
-                            onPress={() => { currentMarker && OpenMapDirections(null, currentMarker, 'd') }}
+                            onPress={() => onNavigate(currentMarker)}
                         ></Button>
                     </View>
                 </View>}
@@ -599,13 +612,13 @@ const Map = (props) => {
                                             disabled={!marker.isAppointmentAvailable}
                                             title='Set Appointment'
                                             style={styles.buttonStyle}
-                                            onPress={() => Linking.canOpenURL(marker.appointment) ? Linking.openURL(marker.appointment) : null}
+                                            onPress={() => onSetAppointment(marker.appointment)}
                                         ></Button>
 
                                         <Button
                                             title='Navigate'
                                             style={styles.buttonStyle}
-                                            onPress={() => { marker && OpenMapDirections(null, marker, 'd') }}
+                                            onPress={() => onNavigate(marker)}
                                         ></Button>
                                     </View>
                                 </View>

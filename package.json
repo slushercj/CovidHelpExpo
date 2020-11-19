@@ -10,6 +10,9 @@
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.5",
     "@react-navigation/native": "^5.7.6",
+    "@react-native-community/netinfo": "^5.9.6",
+    "aws-amplify": "^3.3.8",
+    "aws-amplify-react-native": "^4.2.9",
     "expo": "^39.0.3",
     "expo-location": "~9.0.0",
     "expo-permissions": "^9.3.0",
