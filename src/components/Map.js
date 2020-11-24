@@ -402,7 +402,7 @@ const Map = (props) => {
             let { status } = await Location.requestPermissionsAsync();
 
             if (status !== 'granted') {
-                alert('CovidHelp requires Location permissions in order to work');
+                // alert('CovidHelp requires Location permissions in order to work');
                 return;
             }
 
@@ -459,7 +459,7 @@ const Map = (props) => {
             <View style={{ height: '100%', backgroundColor: '#000' }}>
                 {/* Header */}
                 <View style={{ flex: 1, backgroundColor: 'white', alignItems: 'center' }}>
-                    <Text style={Platform.OS === 'android' ? styles.androidHeader : styles.iosHeader}>Covid Help</Text>
+                    <Text style={[styles.androidHeader, { marginTop: 10 }]}>Covid Help</Text>
                 </View>
 
                 {/* Map */}
