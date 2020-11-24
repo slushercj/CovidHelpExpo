@@ -4,7 +4,7 @@
     "slug": "covid-help",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/virus-battle.png",
+    "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splashscreen.png",
       "resizeMode": "contain",
@@ -25,6 +25,10 @@
       "favicon": "./assets/favicon.png"
     },
     "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#00000000",
+        "backgroundImage": "./assets/icon.png"
+      },
       "package": "com.codeboss.covidhelp",
       "versionCode": 1,
       "config": {
