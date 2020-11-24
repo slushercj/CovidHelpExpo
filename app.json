@@ -26,8 +26,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#00000c0",
-        "backgroundImage": "./assets/icon.png"
+        "backgroundColor": "#000000",
+        "foregroundImage": "./assets/icon.png"
       },
       "package": "com.codeboss.covidhelp",
       "versionCode": 1,
