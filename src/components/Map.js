@@ -409,7 +409,7 @@ const Map = (props) => {
             await Location.getCurrentPositionAsync().then((r) => {
                 setLocation(r.coords);
             }).catch(l => {
-                alert(l);
+                console.log(l);
             });
 
             // _map.root.animateToRegion(location, 1000);
@@ -459,7 +459,7 @@ const Map = (props) => {
             <View style={{ height: '100%', backgroundColor: '#000' }}>
                 {/* Header */}
                 <View style={{ flex: 1, backgroundColor: 'white', alignItems: 'center' }}>
-                    <Text style={[styles.androidHeader, { marginTop: 10 }]}>Covid Help</Text>
+                    <Text style={[styles.androidHeader, { bottom: 10 }]}>Covid Help</Text>
                 </View>
 
                 {/* Map */}
@@ -664,13 +664,13 @@ const styles = StyleSheet.create({
     androidHeader: {
         fontSize: 40,
         color: '#444',
-        textShadowColor: '#000000',
         textShadowOffset: {
-            height: -1,
-            width: -1,
+            height: -.5,
+            width: -.5,
         },
-        textShadowRadius: 6,
-        shadowOpacity: .1
+        textShadowRadius: 2,
+        shadowOpacity: .3,
+        top: 25
     },
     container: {
         alignItems: 'center'
