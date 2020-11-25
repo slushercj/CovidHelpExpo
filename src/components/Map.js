@@ -458,8 +458,8 @@ const Map = (props) => {
         return (
             <View style={{ height: '100%', backgroundColor: '#000' }}>
                 {/* Header */}
-                <View style={{ flex: 1, backgroundColor: 'white', alignItems: 'center' }}>
-                    <Text style={[styles.androidHeader, { bottom: 10 }]}>Covid Help</Text>
+                <View style={{ flex: 1, backgroundColor: 'white', flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center' }}>
+                    <Text style={[styles.androidHeader]}>Covid Help</Text>
                 </View>
 
                 {/* Map */}
@@ -663,14 +663,14 @@ const styles = StyleSheet.create({
     },
     androidHeader: {
         fontSize: 40,
-        color: '#444',
+        color: '#222',
         textShadowOffset: {
             height: -.5,
             width: -.5,
         },
         textShadowRadius: 2,
         shadowOpacity: .3,
-        top: 25
+        bottom: 10
     },
     container: {
         alignItems: 'center'
