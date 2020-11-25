@@ -6,6 +6,7 @@ import * as Location from 'expo-location';
 import { OpenMapDirections } from 'react-native-navigation-directions';
 import Amplify, { Analytics, Logger } from 'aws-amplify';
 import * as SplashScreen from 'expo-splash-screen'
+import { useFonts } from '@expo-google-fonts/inter';
 
 // Prevent native splash screen from autohiding before App component declaration
 SplashScreen.preventAutoHideAsync()
@@ -409,7 +410,7 @@ const Map = (props) => {
         (async () => {
             setTimeout(async () => {
                 await SplashScreen.hideAsync();
-            }, 5000);
+            }, 3000);
 
             let { status } = await Location.requestPermissionsAsync();
 
@@ -669,14 +670,15 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         flexDirection: 'column',
         justifyContent: 'flex-end',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     iosHeader: {
         fontSize: 40,
         color: '#444',
         textShadowColor: '#000000',
         textShadowRadius: 1,
-        shadowOpacity: 0.3
+        shadowOpacity: 0.3,
+        fontFamily: 'Times New Roman'
     },
     iosSubHeader: {
         fontSize: 12,
@@ -694,7 +696,8 @@ const styles = StyleSheet.create({
         },
         textShadowRadius: 2,
         shadowOpacity: .3,
-        bottom: 10
+        bottom: 10,
+        fontFamily: 'serif'
     },
     androidSubHeader: {
         fontSize: 12,
