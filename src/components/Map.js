@@ -5,6 +5,12 @@ import { View, Text, StyleSheet, Dimensions, Image, Button, Platform, Linking } 
 import * as Location from 'expo-location';
 import { OpenMapDirections } from 'react-native-navigation-directions';
 import Amplify, { Analytics, Logger } from 'aws-amplify';
+import * as SplashScreen from 'expo-splash-screen'
+
+// Prevent native splash screen from autohiding before App component declaration
+SplashScreen.preventAutoHideAsync()
+    .then(result => console.log(`SplashScreen.preventAutoHideAsync() succeeded: ${result}`))
+    .catch(console.warn); // it's good to explicitly catch and inspect any error
 
 const { width, height } = Dimensions.get('window');
 
@@ -13,6 +19,8 @@ const Map = (props) => {
     const [currentMarker, setCurrentMarker] = useState(null);
     const mapRef = useRef(null);
     const maxTitleLength = 42;
+    const header = "Covid Help";
+    const subHeader = "FREE TESTING LOCATIONS";
 
     const [markers, setMarkers] = useState([
         {
@@ -399,6 +407,10 @@ const Map = (props) => {
 
     useEffect(() => {
         (async () => {
+            setTimeout(async () => {
+                await SplashScreen.hideAsync();
+            }, 5000);
+
             let { status } = await Location.requestPermissionsAsync();
 
             if (status !== 'granted') {
@@ -458,8 +470,9 @@ const Map = (props) => {
         return (
             <View style={{ height: '100%', backgroundColor: '#000' }}>
                 {/* Header */}
-                <View style={{ flex: 1, backgroundColor: 'white', flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center' }}>
-                    <Text style={[styles.androidHeader]}>Covid Help</Text>
+                <View style={styles.headerStyle}>
+                    <Text style={[styles.androidHeader]}>{header}</Text>
+                    <Text style={[styles.androidSubHeader]}>{subHeader}</Text>
                 </View>
 
                 {/* Map */}
@@ -548,8 +561,9 @@ const Map = (props) => {
         return (
 
             <View style={styles.container}>
-                <View style={styles.headerContainer}>
-                    <Text style={Platform.OS === 'android' ? styles.androidHeader : styles.iosHeader}>Covid Help</Text>
+                <View style={[styles.headerContainer, { alignItems: 'center' }]}>
+                    <Text style={styles.iosHeader}>{header}</Text>
+                    <Text style={styles.iosSubHeader}>{subHeader}</Text>
                 </View>
 
                 <MapView
@@ -650,19 +664,40 @@ const styles = StyleSheet.create({
         padding: 20,
         backgroundColor: '#0000'
     },
+    headerStyle: {
+        flex: 1,
+        backgroundColor: 'white',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        alignItems: 'center'
+    },
     iosHeader: {
         fontSize: 40,
         color: '#444',
         textShadowColor: '#000000',
-        textShadowOffset: {
-            height: 1,
-            width: 1,
-        },
-        textShadowRadius: 2,
+        textShadowRadius: 1,
+        shadowOpacity: 0.3
+    },
+    iosSubHeader: {
+        fontSize: 12,
+        color: '#444',
+        textShadowColor: '#000000',
+        textShadowRadius: 1,
         shadowOpacity: 0.3
     },
     androidHeader: {
         fontSize: 40,
+        color: '#222',
+        textShadowOffset: {
+            height: -.5,
+            width: -.5,
+        },
+        textShadowRadius: 2,
+        shadowOpacity: .3,
+        bottom: 10
+    },
+    androidSubHeader: {
+        fontSize: 12,
         color: '#222',
         textShadowOffset: {
             height: -.5,
