@@ -5,8 +5,9 @@ import { View, Text, StyleSheet, Dimensions, Image, Button, Platform, Linking } 
 import * as Location from 'expo-location';
 import { OpenMapDirections } from 'react-native-navigation-directions';
 import Amplify, { Analytics, Logger } from 'aws-amplify';
-import * as SplashScreen from 'expo-splash-screen'
-import { useFonts } from '@expo-google-fonts/inter';
+import * as SplashScreen from 'expo-splash-screen';
+import { AppLoading } from 'expo';
+import { useFonts, Lora_400Regular } from '@expo-google-fonts/lora';
 
 // Prevent native splash screen from autohiding before App component declaration
 SplashScreen.preventAutoHideAsync()
@@ -16,6 +17,11 @@ SplashScreen.preventAutoHideAsync()
 const { width, height } = Dimensions.get('window');
 
 const Map = (props) => {
+
+    let [fontsLoaded] = useFonts({
+        Lora_400Regular
+    });
+
     const [location, setLocation] = useState({ latitude: 32.78915, longitude: -117.0524 });
     const [currentMarker, setCurrentMarker] = useState(null);
     const mapRef = useRef(null);
@@ -407,6 +413,7 @@ const Map = (props) => {
     ]);
 
     useEffect(() => {
+
         (async () => {
             setTimeout(async () => {
                 await SplashScreen.hideAsync();
@@ -467,7 +474,10 @@ const Map = (props) => {
     }
 
     // Android
-    if (Platform.OS == 'android') {
+    if (!fontsLoaded) {
+        return <AppLoading />;
+    }
+    else if (Platform.OS == 'android') {
         return (
             <View style={{ height: '100%', backgroundColor: '#000' }}>
                 {/* Header */}
@@ -697,7 +707,7 @@ const styles = StyleSheet.create({
         textShadowRadius: 2,
         shadowOpacity: .3,
         bottom: 10,
-        fontFamily: 'serif'
+        fontFamily: 'Lora_400Regular'
     },
     androidSubHeader: {
         fontSize: 12,

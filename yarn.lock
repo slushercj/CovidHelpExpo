@@ -2340,6 +2340,11 @@
   resolved "https://registry.yarnpkg.com/@expo-google-fonts/inter/-/inter-0.1.0.tgz#399f068437824fcbf6aa3da5fcf490dba2af85a3"
   integrity sha512-Y6GCqsUX6JwexQ2wmBkMiJBY6M2GpNQRTczzIGbBGhXWQxqGmP5awRcf0ZJV+OlLeJcKAzas/TW45ZLdpG3yzA==
 
+"@expo-google-fonts/lora@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/lora/-/lora-0.1.0.tgz#f3af6597b3705a33c3e40e5ead0521bfb1415067"
+  integrity sha512-OrC0u57O9+61KOiS02jCeaGtp4JVnZnU07sppnDX4Lr3aW6fngdJyMbJ5Z8RwVm507BoTbbEWNoRHpx/6DGBLA==
+
 "@expo/configure-splash-screen@0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@expo/configure-splash-screen/-/configure-splash-screen-0.2.0.tgz#84f9f71363259f16fd0073636a198c750a3cdd7c"

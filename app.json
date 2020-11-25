@@ -2,11 +2,11 @@
   "expo": {
     "name": "Covid Help",
     "slug": "covid-help",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/appicon.png",
     "splash": {
-      "image": "./assets/splashscreen.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#000000"
     },
@@ -18,7 +18,7 @@
     ],
     "ios": {
       "bundleIdentifier": "com.codeboss.covidhelp",
-      "buildNumber": "1.0.1",
+      "buildNumber": "1.0.2",
       "supportsTablet": true
     },
     "web": {
@@ -27,7 +27,7 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#000000",
-        "foregroundImage": "./assets/icon.png"
+        "foregroundImage": "./assets/appicon.png"
       },
       "package": "com.codeboss.covidhelp",
       "versionCode": 1,
