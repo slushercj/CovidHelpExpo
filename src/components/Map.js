@@ -5,14 +5,8 @@ import { View, Text, StyleSheet, Dimensions, Image, Button, Platform, Linking } 
 import * as Location from 'expo-location';
 import { OpenMapDirections } from 'react-native-navigation-directions';
 import Amplify, { Analytics, Logger } from 'aws-amplify';
-import * as SplashScreen from 'expo-splash-screen';
 import { AppLoading } from 'expo';
 import { useFonts, Lora_400Regular } from '@expo-google-fonts/lora';
-
-// Prevent native splash screen from autohiding before App component declaration
-SplashScreen.preventAutoHideAsync()
-    .then(result => console.log(`SplashScreen.preventAutoHideAsync() succeeded: ${result}`))
-    .catch(console.warn); // it's good to explicitly catch and inspect any error
 
 const { width, height } = Dimensions.get('window');
 
@@ -415,9 +409,6 @@ const Map = (props) => {
     useEffect(() => {
 
         (async () => {
-            setTimeout(async () => {
-                await SplashScreen.hideAsync();
-            }, 3000);
 
             let { status } = await Location.requestPermissionsAsync();
 
@@ -677,6 +668,7 @@ const styles = StyleSheet.create({
     },
     headerStyle: {
         flex: 1,
+        minHeight: 15,
         backgroundColor: 'white',
         flexDirection: 'column',
         justifyContent: 'flex-end',
@@ -698,13 +690,13 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.3
     },
     androidHeader: {
-        fontSize: 40,
+        fontSize: 32,
         color: '#222',
         textShadowOffset: {
             height: -.5,
             width: -.5,
         },
-        textShadowRadius: 2,
+        textShadowRadius: 3,
         shadowOpacity: .3,
         bottom: 10,
         fontFamily: 'Lora_400Regular'
@@ -716,7 +708,7 @@ const styles = StyleSheet.create({
             height: -.5,
             width: -.5,
         },
-        textShadowRadius: 2,
+        textShadowRadius: 3,
         shadowOpacity: .3,
         bottom: 10
     },
