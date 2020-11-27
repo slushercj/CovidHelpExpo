@@ -2,7 +2,7 @@
   "expo": {
     "name": "Covid Help",
     "slug": "covid-help",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "orientation": "portrait",
     "icon": "./assets/appicon.png",
     "splash": {
@@ -18,7 +18,7 @@
     ],
     "ios": {
       "bundleIdentifier": "com.codeboss.covidhelp",
-      "buildNumber": "1.0.4",
+      "buildNumber": "1.0.5",
       "supportsTablet": true
     },
     "web": {
