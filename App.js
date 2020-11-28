@@ -21,7 +21,7 @@ const AppsScreen = () => {
     setTimeout(async () => {
       await SplashScreen.hideAsync();
       setAppReady(true);
-    }, 1500);
+    }, 1700);
   });
 
   if (appReady)
