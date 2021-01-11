@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "Covid Help",
-    "slug": "covid-help",
+    "name": "Super Pantry",
+    "slug": "super-pantry",
     "version": "1.0.5",
     "orientation": "portrait",
-    "icon": "./assets/appicon.png",
+    "icon": "./assets/foodappicon.png",
     "splash": {
-      "image": "./assets/covidsplash.png",
+      "image": "./assets/foodsplash.png",
       "resizeMode": "contain",
       "backgroundColor": "#000000"
     },
@@ -17,7 +17,7 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "com.codeboss.covidhelp",
+      "bundleIdentifier": "com.codeboss.superpantry",
       "buildNumber": "1.0.5",
       "supportsTablet": true
     },
@@ -27,9 +27,9 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#000000",
-        "foregroundImage": "./assets/appicon.png"
+        "foregroundImage": "./assets/foodappicon.png"
       },
-      "package": "com.codeboss.covidhelp",
+      "package": "com.codeboss.superpantry",
       "versionCode": 1,
       "config": {
         "googleMaps": {
@@ -38,6 +38,6 @@
       },
       "permissions": []
     },
-    "description": "Free Covid testing locations and Food distribution centers in San Diego County"
+    "description": "Free Super Pantry food distribution locations in San Diego County"
   }
 }
