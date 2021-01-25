@@ -6,9 +6,9 @@
     "orientation": "portrait",
     "icon": "./assets/foodappicon.png",
     "splash": {
-      "image": "./assets/foodsplash.png",
+      "image": "./assets/pantry.png",
       "resizeMode": "contain",
-      "backgroundColor": "#000000"
+      "backgroundColor": "#EBF6F5"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

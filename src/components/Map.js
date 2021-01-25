@@ -622,181 +622,319 @@ const Map = (props) => {
     }
     else if (Platform.OS == 'android') {
         return (
-            <View style={{ height: '100%', backgroundColor: '#000' }}>
-                {/* Header */}
-                <View style={styles.headerStyle}>
-                    <Text style={[styles.androidHeader]}>{header}</Text>
-                    <Text style={[styles.androidSubHeader]}>{subHeader}</Text>
-                </View>
+          <View style={{ height: "100%", backgroundColor: "#000" }}>
+            {/* Header */}
+            <View style={styles.headerStyle}>
+              <Text style={[styles.androidHeader]}>{header}</Text>
+              <Text style={[styles.androidSubHeader]}>{subHeader}</Text>
+            </View>
 
-                {/* Map */}
-                <View style={{ flex: 7 }}>
-                    <MapView
-                        ref={mapRef}
-                        style={styles.map} rr
-                        showsUserLocation
-                        zoomControlEnabled
-                        // onLayout={() => _map.root.animateToRegion(location.coords)}
-                        onPress={() => setCurrentMarker(null)}
-                        initialRegion={{
-                            latitude: location.latitude,
-                            longitude: location.longitude,
-                            latitudeDelta: 0.45,
-                            longitudeDelta: 0.45
-                        }}
-                        onMapReady={() => mapRef.current.fitToCoordinates()}
-                    // onRegionChange={() => { console.warn(`region changed!`) }}
-                    >
-                        {markers && markers.every(m => m.latitude != null && m.longitude != null) && markers.map((marker, index) => (
-                            <Marker
-                                identifier={index.toString()}
-                                key={index}
-                                coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
-                                onPress={(e) => onMarkerPress(e)}
-                                pinColor={marker.isFoodDist ? '#3300ff' : '#ff0000'}
-                                tooltip={false}
-                            />
-                        ))}
-                    </MapView>
-                </View>
+            {/* Map */}
+            <View style={{ flex: 7 }}>
+              <MapView
+                ref={mapRef}
+                style={styles.map}
+                rr
+                showsUserLocation
+                zoomControlEnabled
+                // onLayout={() => _map.root.animateToRegion(location.coords)}
+                onPress={() => setCurrentMarker(null)}
+                initialRegion={{
+                  latitude: location.latitude,
+                  longitude: location.longitude,
+                  latitudeDelta: 0.45,
+                  longitudeDelta: 0.45,
+                }}
+                onMapReady={() => mapRef.current.fitToCoordinates()}
+                // onRegionChange={() => { console.warn(`region changed!`) }}
+              >
+                {markers &&
+                  markers.every(
+                    (m) => m.latitude != null && m.longitude != null
+                  ) &&
+                  markers.map((marker, index) => (
+                    <Marker
+                      identifier={index.toString()}
+                      key={index}
+                      coordinate={{
+                        latitude: marker.latitude,
+                        longitude: marker.longitude,
+                      }}
+                      onPress={(e) => onMarkerPress(e)}
+                      pinColor={marker.isFoodDist ? "#4CBB17" : "#ff0000"}
+                      tooltip={false}
+                    />
+                  ))}
+              </MapView>
+            </View>
 
-                {/* Footer */}
-                {currentMarker && <View style={{ flex: 0, justifyContent: 'flex-end', flexShrink: 1, backgroundColor: 'white', alignItems: 'center' }}>
-                    {/* Title */}
-                    <Text style={[styles.calloutHeader, { maxWidth: width }]}>{currentMarker.title.length > maxTitleLength ? `${currentMarker.title.substring(0, maxTitleLength)}...` : currentMarker.title}</Text>
-                    {/* Address */}
-                    <Text style={[styles.calloutAddress, { maxWidth: width }]}>{currentMarker.address}</Text>
-                    {/* Hours */}
-                    <Text style={[styles.calloutAddress, { maxWidth: width }]}>{currentMarker.hours}</Text>
+            {/* Footer */}
+            {currentMarker && (
+              <View
+                style={{
+                  flex: 0,
+                  justifyContent: "flex-end",
+                  flexShrink: 1,
+                  backgroundColor: "white",
+                  alignItems: "center",
+                }}
+              >
+                {/* Title */}
+                <Text style={[styles.calloutHeader, { maxWidth: width }]}>
+                  {currentMarker.title.length > maxTitleLength
+                    ? `${currentMarker.title.substring(0, maxTitleLength)}...`
+                    : currentMarker.title}
+                </Text>
+                {/* Address */}
+                <Text style={[styles.calloutAddress, { maxWidth: width }]}>
+                  {currentMarker.address}
+                </Text>
+                {/* Hours */}
+                <Text style={[styles.calloutAddress, { maxWidth: width }]}>
+                  {currentMarker.hours}
+                </Text>
 
-                    {/* Walk-In, Drive-Up, and testing */}
-                    {!currentMarker.isFoodDist ? <View style={styles.siteInfoContainer}>
-                        <Text style={styles.sitInfoText}>Walk-in  {currentMarker.isWalkIn ? <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /> : <Image source={require('../../assets/xmark.png')} style={styles.xmark} />} </Text>
-                        <Text style={styles.sitInfoText}>Drive-up  {currentMarker.isDriveUp ? <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /> : <Image source={require('../../assets/xmark.png')} style={styles.xmark} />} </Text>
-                        <Text style={styles.sitInfoText}>Testing Free <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /></Text>
-                    </View> : null}
+                {/* Walk-In, Drive-Up, and testing */}
+                {!currentMarker.isFoodDist ? (
+                  <View style={styles.siteInfoContainer}>
+                    <Text style={styles.sitInfoText}>
+                      Walk-in{" "}
+                      {currentMarker.isWalkIn ? (
+                        <Image
+                          source={require("../../assets/checkmark.png")}
+                          style={styles.checkmark}
+                        />
+                      ) : (
+                        <Image
+                          source={require("../../assets/xmark.png")}
+                          style={styles.xmark}
+                        />
+                      )}{" "}
+                    </Text>
+                    <Text style={styles.sitInfoText}>
+                      Drive-up{" "}
+                      {currentMarker.isDriveUp ? (
+                        <Image
+                          source={require("../../assets/checkmark.png")}
+                          style={styles.checkmark}
+                        />
+                      ) : (
+                        <Image
+                          source={require("../../assets/xmark.png")}
+                          style={styles.xmark}
+                        />
+                      )}{" "}
+                    </Text>
+                    <Text style={styles.sitInfoText}>
+                      Testing Free{" "}
+                      <Image
+                        source={require("../../assets/checkmark.png")}
+                        style={styles.checkmark}
+                      />
+                    </Text>
+                  </View>
+                ) : null}
 
-                    {/* Appointments */}
-                    {!currentMarker.isFoodDist && currentMarker.isAppointmentRequired ?
-                        <View style={styles.siteInfoContainer}>
-                            <Text style={styles.sitInfoText}>Appointment Required </Text>
-                        </View> : null}
+                {/* Appointments */}
+                {!currentMarker.isFoodDist &&
+                currentMarker.isAppointmentRequired ? (
+                  <View style={styles.siteInfoContainer}>
+                    <Text style={styles.sitInfoText}>
+                      Appointment Required{" "}
+                    </Text>
+                  </View>
+                ) : null}
 
-                    {!currentMarker.isFoodDist && !currentMarker.isAppointmentRequired && currentMarker.isAppointmentAvailable ?
-                        <View style={styles.siteInfoContainer}>
-                            <Text style={styles.sitInfoText}>Appointment Available, Not Required </Text>
-                        </View> : null}
+                {!currentMarker.isFoodDist &&
+                !currentMarker.isAppointmentRequired &&
+                currentMarker.isAppointmentAvailable ? (
+                  <View style={styles.siteInfoContainer}>
+                    <Text style={styles.sitInfoText}>
+                      Appointment Available, Not Required{" "}
+                    </Text>
+                  </View>
+                ) : null}
 
-                    {!currentMarker.isFoodDist && !currentMarker.isAppointmentRequired && !currentMarker.isAppointmentAvailable ?
-                        <View style={styles.siteInfoContainer}>
-                            <Text style={styles.sitInfoText}>No Appointment Necessary </Text>
-                        </View> : null}
+                {!currentMarker.isFoodDist &&
+                !currentMarker.isAppointmentRequired &&
+                !currentMarker.isAppointmentAvailable ? (
+                  <View style={styles.siteInfoContainer}>
+                    <Text style={styles.sitInfoText}>
+                      No Appointment Necessary{" "}
+                    </Text>
+                  </View>
+                ) : null}
 
-                    <View style={styles.buttonContainer}>
-                        {/* <Button
+                <View style={styles.buttonContainer}>
+                  {/* <Button
                             disabled={!currentMarker.isAppointmentAvailable}
                             title='Set Appointment'
                             style={styles.buttonStyle}
                             onPress={() => onSetAppointment(currentMarker.appointment)}
                         ></Button> */}
 
-                        <Button
-                            title='Navigate'
-                            style={styles.buttonStyle}
-                            onPress={() => onNavigate(currentMarker)}
-                        ></Button>
-                    </View>
-                </View>}
-            </View>
-        )
+                  <Button
+                    title="Navigate"
+                    style={styles.buttonStyle}
+                    onPress={() => onNavigate(currentMarker)}
+                  ></Button>
+                </View>
+              </View>
+            )}
+          </View>
+        );
     }
     // iOS
     else
         return (
+          <View style={styles.container}>
+            <View style={[styles.headerContainer, { alignItems: "center" }]}>
+              <Text style={styles.iosHeader}>{header}</Text>
+              <Text style={styles.iosSubHeader}>{subHeader}</Text>
+            </View>
 
-            <View style={styles.container}>
-                <View style={[styles.headerContainer, { alignItems: 'center' }]}>
-                    <Text style={styles.iosHeader}>{header}</Text>
-                    <Text style={styles.iosSubHeader}>{subHeader}</Text>
-                </View>
-
-                <MapView
-                    style={styles.map}
-                    showsUserLocation={true}
-                    zoomControlEnabled={false}
-                    initialRegion={{
-                        latitude: location.latitude,
-                        longitude: location.longitude,
-                        latitudeDelta: 0.45,
-                        longitudeDelta: 0.45
+            <MapView
+              style={styles.map}
+              showsUserLocation={true}
+              zoomControlEnabled={false}
+              initialRegion={{
+                latitude: location.latitude,
+                longitude: location.longitude,
+                latitudeDelta: 0.45,
+                longitudeDelta: 0.45,
+              }}
+              ref={mapRef}
+            >
+              {markers &&
+                markers.every(
+                  (m) => m.latitude != null && m.longitude != null
+                ) &&
+                markers.map((marker, index) => (
+                  <Marker
+                    key={index}
+                    title={marker.title}
+                    coordinate={{
+                      latitude: marker.latitude,
+                      longitude: marker.longitude,
                     }}
-                    ref={mapRef}
-                >
-                    {markers && markers.every(m => m.latitude != null && m.longitude != null) && markers.map((marker, index) => (
-                        <Marker
-                            key={index}
-                            title={marker.title}
-                            coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
-                            description={marker.address}
-                            pinColor={marker.isFoodDist ? '#3300ff' : '#ff0000'}
-                            tooltip={true}
+                    description={marker.address}
+                    pinColor={marker.isFoodDist ? "#4CBB17" : "#ff0000"}
+                    tooltip={true}
+                  >
+                    <Callout tooltip>
+                      <View style={[styles.calloutStyle, { maxWidth: width }]}>
+                        {/* Title */}
+                        <Text
+                          style={[styles.calloutHeader, { maxWidth: width }]}
                         >
+                          {marker.title.length > maxTitleLength
+                            ? `${marker.title.substring(0, maxTitleLength)}...`
+                            : marker.title}
+                        </Text>
+                        {/* Address */}
+                        <Text
+                          style={[styles.calloutAddress, { maxWidth: width }]}
+                        >
+                          {marker.address}
+                        </Text>
+                        {/* Hours */}
+                        <Text
+                          style={[styles.calloutAddress, { maxWidth: width }]}
+                        >
+                          {marker.hours}
+                        </Text>
 
-                            <Callout tooltip>
-                                <View style={[styles.calloutStyle, { maxWidth: width }]}>
-                                    {/* Title */}
-                                    <Text style={[styles.calloutHeader, { maxWidth: width }]}>{marker.title.length > maxTitleLength ? `${marker.title.substring(0, maxTitleLength)}...` : marker.title}</Text>
-                                    {/* Address */}
-                                    <Text style={[styles.calloutAddress, { maxWidth: width }]}>{marker.address}</Text>
-                                    {/* Hours */}
-                                    <Text style={[styles.calloutAddress, { maxWidth: width }]}>{marker.hours}</Text>
+                        {/* Walk-In, Drive-Up, and testing */}
+                        {!marker.isFoodDist ? (
+                          <View style={styles.siteInfoContainer}>
+                            <Text style={styles.sitInfoText}>
+                              Walk-in{" "}
+                              {marker.isWalkIn ? (
+                                <Image
+                                  source={require("../../assets/checkmark.png")}
+                                  style={styles.checkmark}
+                                />
+                              ) : (
+                                <Image
+                                  source={require("../../assets/xmark.png")}
+                                  style={styles.xmark}
+                                />
+                              )}{" "}
+                            </Text>
+                            <Text style={styles.sitInfoText}>
+                              Drive-up{" "}
+                              {marker.isDriveUp ? (
+                                <Image
+                                  source={require("../../assets/checkmark.png")}
+                                  style={styles.checkmark}
+                                />
+                              ) : (
+                                <Image
+                                  source={require("../../assets/xmark.png")}
+                                  style={styles.xmark}
+                                />
+                              )}{" "}
+                            </Text>
+                            <Text style={styles.sitInfoText}>
+                              Testing Free{" "}
+                              <Image
+                                source={require("../../assets/checkmark.png")}
+                                style={styles.checkmark}
+                              />
+                            </Text>
+                          </View>
+                        ) : null}
 
-                                    {/* Walk-In, Drive-Up, and testing */}
-                                    {!marker.isFoodDist ? <View style={styles.siteInfoContainer}>
-                                        <Text style={styles.sitInfoText}>Walk-in  {marker.isWalkIn ? <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /> : <Image source={require('../../assets/xmark.png')} style={styles.xmark} />} </Text>
-                                        <Text style={styles.sitInfoText}>Drive-up  {marker.isDriveUp ? <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /> : <Image source={require('../../assets/xmark.png')} style={styles.xmark} />} </Text>
-                                        <Text style={styles.sitInfoText}>Testing Free <Image source={require('../../assets/checkmark.png')} style={styles.checkmark} /></Text>
-                                    </View> : null}
+                        {/* Appointments */}
+                        {!marker.isFoodDist && marker.isAppointmentRequired ? (
+                          <View style={styles.siteInfoContainer}>
+                            <Text style={styles.sitInfoText}>
+                              Appointment Required
+                            </Text>
+                          </View>
+                        ) : null}
 
-                                    {/* Appointments */}
-                                    {!marker.isFoodDist && marker.isAppointmentRequired ?
-                                        <View style={styles.siteInfoContainer}>
-                                            <Text style={styles.sitInfoText}>Appointment Required</Text>
-                                        </View> : null}
+                        {!marker.isFoodDist &&
+                        !marker.isAppointmentRequired &&
+                        marker.isAppointmentAvailable ? (
+                          <View style={styles.siteInfoContainer}>
+                            <Text style={styles.sitInfoText}>
+                              Appointment Available, Not Required{" "}
+                            </Text>
+                          </View>
+                        ) : null}
 
-                                    {!marker.isFoodDist && !marker.isAppointmentRequired && marker.isAppointmentAvailable ?
-                                        <View style={styles.siteInfoContainer}>
-                                            <Text style={styles.sitInfoText}>Appointment Available, Not Required </Text>
-                                        </View> : null}
+                        {!marker.isFoodDist &&
+                        !marker.isAppointmentRequired &&
+                        !marker.isAppointmentAvailable ? (
+                          <View style={styles.siteInfoContainer}>
+                            <Text style={styles.sitInfoText}>
+                              No Appointment Necessary{" "}
+                            </Text>
+                          </View>
+                        ) : null}
 
-                                    {!marker.isFoodDist && !marker.isAppointmentRequired && !marker.isAppointmentAvailable ?
-                                        <View style={styles.siteInfoContainer}>
-                                            <Text style={styles.sitInfoText}>No Appointment Necessary </Text>
-                                        </View> : null}
-
-
-                                    <View style={styles.buttonContainer}>
-                                        {/* <Button
+                        <View style={styles.buttonContainer}>
+                          {/* <Button
                                             disabled={!marker.isAppointmentAvailable}
                                             title='Set Appointment'
                                             style={styles.buttonStyle}
                                             onPress={() => onSetAppointment(marker.appointment)}
                                         ></Button> */}
 
-                                        <Button
-                                            title='Navigate'
-                                            style={styles.buttonStyle}
-                                            onPress={() => onNavigate(marker)}
-                                        ></Button>
-                                    </View>
-                                </View>
-                            </Callout>
-
-                        </Marker>
-                    ))}
-                </MapView>
-            </View >
-        )
+                          <Button
+                            title="Navigate"
+                            style={styles.buttonStyle}
+                            onPress={() => onNavigate(marker)}
+                          ></Button>
+                        </View>
+                      </View>
+                    </Callout>
+                  </Marker>
+                ))}
+            </MapView>
+          </View>
+        );
 }
 
 const styles = StyleSheet.create({
