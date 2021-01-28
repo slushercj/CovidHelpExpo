@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "Super Pantry",
-    "slug": "super-pantry",
+    "name": "Pantry Help",
+    "slug": "pantry-help",
     "version": "1.0.5",
     "orientation": "portrait",
-    "icon": "./assets/foodappicon.png",
+    "icon": "./assets/pantryicon.png",
     "splash": {
-      "image": "./assets/pantry.png",
+      "image": "./assets/pantrysplash.png",
       "resizeMode": "contain",
       "backgroundColor": "#EBF6F5"
     },
@@ -27,7 +27,7 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#000000",
-        "foregroundImage": "./assets/foodappicon.png"
+        "foregroundImage": "./assets/pantryicon.png"
       },
       "package": "com.codeboss.superpantry",
       "versionCode": 1,
