@@ -21,7 +21,7 @@ const Map = (props) => {
     const mapRef = useRef(null);
     const maxTitleLength = 42;
     const header = "Pantry Help";
-    const subHeader = "High-Volume Food Distribution Centers";
+    const subHeader = "HIGH-VOLUME FOOD DISTRIBUTION CENTERS";
 
     const [markers, setMarkers] = useState([
       {
@@ -404,7 +404,7 @@ const Map = (props) => {
         description: "",
         holidays: "",
         hours:
-          "Wednesdays, Fridays, and Saturdays 8am - 11am\n 1ST and 3rd Tuesday of each month from 8am - 11am",
+          "Wednesdays, Fridays, and Saturdays 8am - 11am\n 1st and 3rd Tuesday of each month 8am - 11am",
         isAppointmentAvailable: false,
         isAppointmentRequired: false,
         isDriveUp: false,
@@ -624,7 +624,7 @@ const Map = (props) => {
         return (
           <View style={{ height: "100%", backgroundColor: "#000" }}>
             {/* Header */}
-            <View style={styles.headerStyle}>
+            <View style={[styles.headerStyle]}>
               <Text style={[styles.androidHeader]}>{header}</Text>
               <Text style={[styles.androidSubHeader]}>{subHeader}</Text>
             </View>
@@ -640,10 +640,10 @@ const Map = (props) => {
                 // onLayout={() => _map.root.animateToRegion(location.coords)}
                 onPress={() => setCurrentMarker(null)}
                 initialRegion={{
-                  latitude: location.latitude,
+                  latitude: location.latitude + 0.2,
                   longitude: location.longitude,
-                  latitudeDelta: 0.45,
-                  longitudeDelta: 0.45,
+                  latitudeDelta: 0.65,
+                  longitudeDelta: 0.65,
                 }}
                 onMapReady={() => mapRef.current.fitToCoordinates()}
                 // onRegionChange={() => { console.warn(`region changed!`) }}
@@ -953,15 +953,16 @@ const styles = StyleSheet.create({
     tintColor: "red",
   },
   headerContainer: {
-    padding: 20,
-    backgroundColor: "#0000",
+    paddingTop: 50,
+    paddingBottom: 20,
+    backgroundColor: "#EBF6F5",
+    width: '100%'
   },
   headerStyle: {
     flex: 1,
-    paddingTop: 10,
     backgroundColor: "#EBF6F5",
     flexDirection: "column",
-    justifyContent: "flex-end",
+    justifyContent: "center",
     alignItems: "center",
   },
   iosHeader: {
@@ -1006,7 +1007,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   calloutStyle: {
-    flex: -1,
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#ffffff",
@@ -1015,7 +1016,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     padding: 5,
-    width: "95%",
+    width: "90%",
   },
   calloutHeader: {
     fontSize: 16,

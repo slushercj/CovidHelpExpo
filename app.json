@@ -5,6 +5,10 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/pantryicon.png",
+    "androidStatusBar":{
+      "backgroundColor": "#EBF6F5",
+      "translucent": false
+    },
     "splash": {
       "image": "./assets/pantrysplash.png",
       "resizeMode": "contain",

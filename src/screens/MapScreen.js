@@ -5,7 +5,7 @@ import Map from '../components/Map';
 
 const MapScreen = ({ navigation }) => {
     return (
-        <SafeAreaView forceInset={{ top: 'always' }}>
+        <SafeAreaView forceInset={{ top: 'never' }}>
             <Map />
         </SafeAreaView>
     )
