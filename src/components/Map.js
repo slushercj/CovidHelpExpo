@@ -21,7 +21,7 @@ const Map = (props) => {
     const mapRef = useRef(null);
     const maxTitleLength = 42;
     const header = "Pantry Help";
-    const subHeader = "FREE FOOD LOCATIONS";
+    const subHeader = "High-Volume Food Distribution Centers";
 
     const [markers, setMarkers] = useState([
       {
@@ -938,127 +938,127 @@ const Map = (props) => {
 }
 
 const styles = StyleSheet.create({
-    map: {
-        height: '100%',
-        width: '100%'
+  map: {
+    height: "100%",
+    width: "100%",
+  },
+  checkmark: {
+    width: 17,
+    height: 17,
+    tintColor: "green",
+  },
+  xmark: {
+    width: 17,
+    height: 17,
+    tintColor: "red",
+  },
+  headerContainer: {
+    padding: 20,
+    backgroundColor: "#0000",
+  },
+  headerStyle: {
+    flex: 1,
+    paddingTop: 10,
+    backgroundColor: "#EBF6F5",
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  iosHeader: {
+    fontSize: 40,
+    color: "#444",
+    textShadowColor: "#000000",
+    textShadowRadius: 0.1,
+    shadowOpacity: 0.3,
+    fontFamily: "Times New Roman",
+  },
+  iosSubHeader: {
+    fontSize: 12,
+    color: "#444",
+    textShadowColor: "#000000",
+    textShadowRadius: 1,
+    shadowOpacity: 0.3,
+  },
+  androidHeader: {
+    fontSize: 32,
+    color: "#222",
+    textShadowOffset: {
+      height: -0.5,
+      width: -0.5,
     },
-    checkmark: {
-        width: 17,
-        height: 17,
-        tintColor: 'green',
+    textShadowRadius: 3,
+    shadowOpacity: 0.3,
+    bottom: 10,
+    fontFamily: "Lora_400Regular",
+  },
+  androidSubHeader: {
+    fontSize: 12,
+    color: "#222",
+    textShadowOffset: {
+      height: -0.5,
+      width: -0.5,
     },
-    xmark: {
-        width: 17,
-        height: 17,
-        tintColor: 'red',
-    },
-    headerContainer: {
-        padding: 20,
-        backgroundColor: '#0000'
-    },
-    headerStyle: {
-        flex: 1,
-        paddingTop: 10,
-        backgroundColor: 'white',
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-    },
-    iosHeader: {
-        fontSize: 40,
-        color: '#444',
-        textShadowColor: '#000000',
-        textShadowRadius: .1,
-        shadowOpacity: 0.3,
-        fontFamily: 'Times New Roman'
-    },
-    iosSubHeader: {
-        fontSize: 12,
-        color: '#444',
-        textShadowColor: '#000000',
-        textShadowRadius: 1,
-        shadowOpacity: 0.3
-    },
-    androidHeader: {
-        fontSize: 32,
-        color: '#222',
-        textShadowOffset: {
-            height: -.5,
-            width: -.5,
-        },
-        textShadowRadius: 3,
-        shadowOpacity: .3,
-        bottom: 10,
-        fontFamily: 'Lora_400Regular'
-    },
-    androidSubHeader: {
-        fontSize: 12,
-        color: '#222',
-        textShadowOffset: {
-            height: -.5,
-            width: -.5,
-        },
-        textShadowRadius: 3,
-        shadowOpacity: .3,
-        bottom: 10
-    },
-    container: {
-        alignItems: 'center'
-    },
-    calloutStyle: {
-        flex: -1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#ffffff',
-        borderStyle: 'solid',
-        borderColor: '#777777',
-        borderRadius: 10,
-        borderWidth: 1,
-        padding: 5,
-        width: '95%'
-    },
-    calloutHeader: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        marginLeft: 5,
-        marginTop: 5,
-        marginRight: 5,
-    },
-    calloutAddress: {
-        fontSize: 15,
-        marginLeft: 5,
-        marginRight: 5,
-        textAlign: 'center'
-    },
-    buttonStyle: {
-        fontSize: 8,
-    },
-    siteInfoContainer: {
-        alignItems: 'flex-start',
-        justifyContent: 'space-evenly',
-        flexDirection: 'row',
-        padding: 5,
-    },
-    siteInfoText: {
-        margin: 25,
-    },
-    buttonContainer: {
-        flexShrink: 1,
-        alignContent: 'center',
-        justifyContent: 'space-evenly',
-        flexDirection: 'row',
-        marginTop: 10,
-        padding: 5,
-        width: '100%',
-        borderTopWidth: 1,
-        borderLeftWidth: 0,
-        borderRightWidth: 0,
-        borderColor: '#777777',
-        borderStyle: 'solid',
-        backgroundColor: '#ffffff',
-        borderBottomStartRadius: 10,
-        borderBottomEndRadius: 10
-    },
-})
+    textShadowRadius: 3,
+    shadowOpacity: 0.3,
+    bottom: 10,
+  },
+  container: {
+    alignItems: "center",
+  },
+  calloutStyle: {
+    flex: -1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#ffffff",
+    borderStyle: "solid",
+    borderColor: "#777777",
+    borderRadius: 10,
+    borderWidth: 1,
+    padding: 5,
+    width: "95%",
+  },
+  calloutHeader: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginLeft: 5,
+    marginTop: 5,
+    marginRight: 5,
+  },
+  calloutAddress: {
+    fontSize: 15,
+    marginLeft: 5,
+    marginRight: 5,
+    textAlign: "center",
+  },
+  buttonStyle: {
+    fontSize: 8,
+  },
+  siteInfoContainer: {
+    alignItems: "flex-start",
+    justifyContent: "space-evenly",
+    flexDirection: "row",
+    padding: 5,
+  },
+  siteInfoText: {
+    margin: 25,
+  },
+  buttonContainer: {
+    flexShrink: 1,
+    alignContent: "center",
+    justifyContent: "space-evenly",
+    flexDirection: "row",
+    marginTop: 10,
+    padding: 5,
+    width: "100%",
+    borderTopWidth: 1,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    borderColor: "#777777",
+    borderStyle: "solid",
+    backgroundColor: "#ffffff",
+    borderBottomStartRadius: 10,
+    borderBottomEndRadius: 10,
+  },
+});
 
 export default Map;

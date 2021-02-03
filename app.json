@@ -2,7 +2,7 @@
   "expo": {
     "name": "Pantry Help",
     "slug": "pantry-help",
-    "version": "1.0.5",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/pantryicon.png",
     "splash": {
@@ -17,8 +17,8 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "com.codeboss.superpantry",
-      "buildNumber": "1.0.5",
+      "bundleIdentifier": "com.codeboss.pantryhelp",
+      "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "web": {
@@ -29,7 +29,7 @@
         "backgroundColor": "#000000",
         "foregroundImage": "./assets/pantryicon.png"
       },
-      "package": "com.codeboss.superpantry",
+      "package": "com.codeboss.pantryhelp",
       "versionCode": 1,
       "config": {
         "googleMaps": {
@@ -38,6 +38,6 @@
       },
       "permissions": []
     },
-    "description": "Free Super Pantry food distribution locations in San Diego County"
+    "description": "Free Pantry food distribution locations in San Diego County"
   }
 }
