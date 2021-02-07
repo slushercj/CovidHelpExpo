@@ -956,14 +956,15 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     paddingBottom: 20,
     backgroundColor: "#EBF6F5",
-    width: '100%'
+    width: "100%",
   },
   headerStyle: {
     flex: 1,
     backgroundColor: "#EBF6F5",
     flexDirection: "column",
-    justifyContent: "center",
+    justifyContent: "flex-end",
     alignItems: "center",
+    minHeight: 30,
   },
   iosHeader: {
     fontSize: 40,

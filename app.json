@@ -7,7 +7,7 @@
     "icon": "./assets/pantryicon.png",
     "androidStatusBar":{
       "backgroundColor": "#EBF6F5",
-      "translucent": false
+      "translucent": true
     },
     "splash": {
       "image": "./assets/pantrysplash.png",
@@ -22,7 +22,7 @@
     ],
     "ios": {
       "bundleIdentifier": "com.codeboss.pantryhelp",
-      "buildNumber": "1.0.0",
+      "buildNumber": "1.0.1",
       "supportsTablet": true
     },
     "web": {
