@@ -566,7 +566,7 @@ const Map = (props) => {
             let { status } = await Location.requestPermissionsAsync();
 
             if (status !== 'granted') {
-                // alert('CovidHelp requires Location permissions in order to work');
+                // alert('PantryHelp requires Location permissions in order to work');
                 return;
             }
 
@@ -602,19 +602,31 @@ const Map = (props) => {
     function onMarkerPress(mapEventData) {
         let selectedMarker = markers[parseInt(mapEventData.nativeEvent.id)];
 
-        Analytics.record({ name: 'Pin Selected', attributes: [`IsFoodDistribution: ${!!selectedMarker.isFoodDist}`, `Title: ${selectedMarker.title}`, `Address: ${selectedMarker.address}`] });
+        Analytics.record({
+          name: "Pantry Selected",
+          attributes: [
+            `Title: ${selectedMarker.title}`,
+            `Address: ${selectedMarker.address}`,
+          ],
+        }).catch((e) => console.log(e));
         setCurrentMarker(selectedMarker);
     };
 
     const onNavigate = (address) => {
-        Analytics.record({ name: 'Navigation Clicked', attributes: [`IsFoodDistribution: ${address.isFoodDist}`] });
+        Analytics.record({
+          name: "Navigation Started",
+          attributes: [
+            `Title: ${address.title}`,
+            `Address: ${address.address}`,
+          ],
+        });
         return address && OpenMapDirections(null, address, 'd');
     }
 
-    const onSetAppointment = (url) => {
-        Analytics.record({ name: 'Appointment Clicked' });
-        return Linking.canOpenURL(url) ? Linking.openURL(url) : null;
-    }
+    // const onSetAppointment = (url) => {
+    //     Analytics.record({ name: 'Appointment Clicked' });
+    //     return Linking.canOpenURL(url) ? Linking.openURL(url) : null;
+    // }
 
     // Android
     if (!fontsLoaded) {

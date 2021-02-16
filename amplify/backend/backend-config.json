@@ -1,13 +1,13 @@
 {
   "auth": {
-    "cognito8f5d9399": {
+    "cognito5163e4e7": {
       "service": "Cognito",
       "serviceType": "managed",
       "providerPlugin": "awscloudformation"
     }
   },
   "analytics": {
-    "covidhelp": {
+    "pantryhelp": {
       "service": "Pinpoint",
       "providerPlugin": "awscloudformation"
     }

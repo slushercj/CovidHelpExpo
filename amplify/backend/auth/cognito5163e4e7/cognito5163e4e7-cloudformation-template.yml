@@ -7,46 +7,53 @@ Parameters:
     Type: String
   unauthRoleArn:
     Type: String
-  
+
   
 
     
   identityPoolName:
     Type: String
-                
+  
+            
+  
   allowUnauthenticatedIdentities:
     Type: String
             
   authSelections:
     Type: String
-              
+  
+            
   resourceName:
     Type: String
-                                    
+  
+            
+            
+            
 Conditions:
   ShouldNotCreateEnvResources: !Equals [ !Ref env, NONE ]
+   
 
 Resources:
   
     
   # BEGIN IDENTITY POOL RESOURCES
   
- 
+
   IdentityPool:
   # Always created
     Type: AWS::Cognito::IdentityPool
-    Properties: 
-      IdentityPoolName: !If [ShouldNotCreateEnvResources, 'covidhelp_identitypool_5b5e6df8', !Join ['',['covidhelp_identitypool_5b5e6df8', '__', !Ref env]]]
+    Properties:
+      IdentityPoolName: !If [ShouldNotCreateEnvResources, 'pantryhelp_identitypool_1412f2db', !Join ['',['pantryhelp_identitypool_1412f2db', '__', !Ref env]]]
             
       AllowUnauthenticatedIdentities: !Ref allowUnauthenticatedIdentities
-       
+      
     
-  
+
   IdentityPoolRoleMap:
   # Created to map Auth and Unauth roles to the identity pool
   # Depends on Identity Pool for ID ref
     Type: AWS::Cognito::IdentityPoolRoleAttachment
-    Properties: 
+    Properties:
       IdentityPoolId: !Ref IdentityPool
       Roles:
           unauthenticated: !Ref unauthRoleArn
@@ -60,7 +67,7 @@ Outputs :
     Value: !Ref 'IdentityPool'
     Description:  Id for the identity pool
   IdentityPoolName:
-    Value: !GetAtt IdentityPool.Name 
+    Value: !GetAtt IdentityPool.Name
   
   
   

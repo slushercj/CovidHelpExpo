@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "covidhelp_identitypool_5b5e6df8",
+    "identityPoolName": "pantryhelp_identitypool_1412f2db",
     "allowUnauthenticatedIdentities": true,
     "authSelections": "identityPoolOnly",
-    "resourceName": "cognito8f5d9399",
+    "resourceName": "cognito5163e4e7",
     "authRoleArn": {
         "Fn::GetAtt": [
             "AuthRole",

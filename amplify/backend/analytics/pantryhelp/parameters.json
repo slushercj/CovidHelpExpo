@@ -1,0 +1,21 @@
+{
+    "appName": "pantryhelp",
+    "roleName": "pinpointLambdaRoled8eef521",
+    "cloudformationPolicyName": "cloudformationPolicyd8eef521",
+    "cloudWatchPolicyName": "cloudWatchPolicyd8eef521",
+    "pinpointPolicyName": "pinpointPolicyd8eef521",
+    "authPolicyName": "pinpoint_amplify_d8eef521",
+    "unauthPolicyName": "pinpoint_amplify_d8eef521",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}
