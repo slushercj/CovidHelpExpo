@@ -798,10 +798,10 @@ const Map = (props) => {
               showsUserLocation={true}
               zoomControlEnabled={false}
               initialRegion={{
-                latitude: location.latitude,
+                latitude: location.latitude - 0.15,
                 longitude: location.longitude,
-                latitudeDelta: 0.45,
-                longitudeDelta: 0.45,
+                latitudeDelta: 0.65,
+                longitudeDelta: 0.65,
               }}
               ref={mapRef}
             >
