@@ -343,7 +343,7 @@ const Map = (props) => {
         description: "",
         holidays:
           "January 1, 18, February 15, April 2, May 31, July 2, September 6, October 11, November 24 - 26, December 22 - January 2",
-        hours: "Mon, Wed, Fri 12-2:30 \nSun 11am-12:30pm",
+        hours: "Mon, Wed, Fri 12pm-2:30pm \nSun 11am-12:30pm",
         isAppointmentAvailable: false,
         isAppointmentRequired: false,
         isDriveUp: false,
@@ -389,7 +389,7 @@ const Map = (props) => {
           "Tue and Fri 9am - 12pm homeless services",
         holidays: "",
         hours:
-          "Mon 1pm - 4pm\n Wed 1pm - 4pm\n Fri 1pm - 6pm",
+          "Mon 1pm - 4pm, Wed 1pm - 4pm\n Fri 1pm - 6pm",
         isAppointmentAvailable: false,
         isAppointmentRequired: false,
         isDriveUp: false,
