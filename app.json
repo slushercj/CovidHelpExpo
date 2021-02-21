@@ -22,8 +22,12 @@
     ],
     "ios": {
       "bundleIdentifier": "com.codeboss.pantryhelp",
-      "buildNumber": "1.0.1",
-      "supportsTablet": true
+      "buildNumber": "1.0.3",
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Pantry Help needs your location in order to navigate to the various pantry locations",
+        "NSLocationWhenInUseUsageDescription": "Pantry Help needs your location in order to navigate to the various pantry locations"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
